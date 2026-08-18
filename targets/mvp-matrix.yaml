@@ -1,0 +1,12 @@
+# Release-gate matrix. Local synthetic fixtures only — no third-party target is
+# exercised by the gate.
+matrix_id: mvp
+description: >-
+  Conforming and deliberately faulty local fixtures across stdio and Streamable
+  HTTP. The faulty entries are expected to fail; the baseline records that
+  explicitly rather than hiding it.
+targets:
+  - targets/fixtures/reference.yaml
+  - targets/fixtures/faulty-result-type.yaml
+  - targets/http/fixture-2026.yaml
+  - targets/http/faulty-header-mismatch.yaml

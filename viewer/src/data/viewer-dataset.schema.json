@@ -1,0 +1,2285 @@
+{
+  "$defs": {
+    "AssertionSignatureView": {
+      "additionalProperties": false,
+      "properties": {
+        "assertion_id": {
+          "title": "Assertion Id",
+          "type": "string"
+        },
+        "classification": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Classification"
+        },
+        "security_relevant": {
+          "default": false,
+          "title": "Security Relevant",
+          "type": "boolean"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "assertion_id",
+        "status"
+      ],
+      "title": "AssertionSignatureView",
+      "type": "object"
+    },
+    "BenchmarkIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "benchmark_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Benchmark Name"
+        },
+        "benchmark_schema_version": {
+          "title": "Benchmark Schema Version",
+          "type": "string"
+        },
+        "correctness_repetitions": {
+          "title": "Correctness Repetitions",
+          "type": "integer"
+        },
+        "definition_harness_commit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Definition Harness Commit"
+        },
+        "execution_harness_commit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Execution Harness Commit"
+        },
+        "generated_at": {
+          "title": "Generated At",
+          "type": "string"
+        },
+        "harness_version": {
+          "title": "Harness Version",
+          "type": "string"
+        },
+        "profiles": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Profiles",
+          "type": "array"
+        },
+        "timing_measured_runs": {
+          "title": "Timing Measured Runs",
+          "type": "integer"
+        },
+        "timing_warmup_runs": {
+          "title": "Timing Warmup Runs",
+          "type": "integer"
+        },
+        "transports": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Transports",
+          "type": "array"
+        },
+        "visibility": {
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "benchmark_schema_version",
+        "harness_version",
+        "generated_at",
+        "visibility",
+        "correctness_repetitions",
+        "timing_warmup_runs",
+        "timing_measured_runs"
+      ],
+      "title": "BenchmarkIdentity",
+      "type": "object"
+    },
+    "CapabilitySurface": {
+      "additionalProperties": false,
+      "description": "What a target advertised, and how far that was observed rather than read.\n\n``declared_tools`` and ``tool_names`` are carried separately on purpose. One\nis a claim in a target file written by a person; the other is what the server\nanswered. Presenting either in place of the other is the substitution the\napplicability rules exist to prevent.",
+      "properties": {
+        "advertises_completions": {
+          "default": false,
+          "title": "Advertises Completions",
+          "type": "boolean"
+        },
+        "advertises_logging": {
+          "default": false,
+          "title": "Advertises Logging",
+          "type": "boolean"
+        },
+        "advertises_prompts": {
+          "default": false,
+          "title": "Advertises Prompts",
+          "type": "boolean"
+        },
+        "advertises_resources": {
+          "default": false,
+          "title": "Advertises Resources",
+          "type": "boolean"
+        },
+        "capability_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capability Fingerprint"
+        },
+        "declared_tools": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Declared Tools",
+          "type": "array"
+        },
+        "declared_versus_observed": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Declared Versus Observed",
+          "type": "array"
+        },
+        "fingerprint_stable_across_repetitions": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Fingerprint Stable Across Repetitions"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "negotiated_profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Negotiated Profile"
+        },
+        "observed_transport_features": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Observed Transport Features",
+          "type": "object"
+        },
+        "offered_profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Offered Profile"
+        },
+        "server_capabilities": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Server Capabilities",
+          "type": "object"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "status_detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Status Detail"
+        },
+        "target_key": {
+          "title": "Target Key",
+          "type": "string"
+        },
+        "tools": {
+          "items": {
+            "$ref": "#/$defs/ToolSurface"
+          },
+          "title": "Tools",
+          "type": "array"
+        }
+      },
+      "required": [
+        "target_key",
+        "status"
+      ],
+      "title": "CapabilitySurface",
+      "type": "object"
+    },
+    "CategorySummary": {
+      "additionalProperties": false,
+      "description": "One category, for one target, with its own denominator and limitations.",
+      "properties": {
+        "applicable_scenarios": {
+          "default": 0,
+          "title": "Applicable Scenarios",
+          "type": "integer"
+        },
+        "behavioral_divergence": {
+          "default": 0,
+          "title": "Behavioral Divergence",
+          "type": "integer"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "confirmed_private_vulnerabilities": {
+          "default": 0,
+          "title": "Confirmed Private Vulnerabilities",
+          "type": "integer"
+        },
+        "executed_scenarios": {
+          "default": 0,
+          "title": "Executed Scenarios",
+          "type": "integer"
+        },
+        "expected_difference": {
+          "default": 0,
+          "title": "Expected Difference",
+          "type": "integer"
+        },
+        "harness_error": {
+          "default": 0,
+          "title": "Harness Error",
+          "type": "integer"
+        },
+        "inconclusive": {
+          "default": 0,
+          "title": "Inconclusive",
+          "type": "integer"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "not_applicable": {
+          "default": 0,
+          "title": "Not Applicable",
+          "type": "integer"
+        },
+        "not_measured": {
+          "default": 0,
+          "title": "Not Measured",
+          "type": "integer"
+        },
+        "security_dimension": {
+          "default": "",
+          "title": "Security Dimension",
+          "type": "string"
+        },
+        "security_relevant_observations": {
+          "default": 0,
+          "title": "Security Relevant Observations",
+          "type": "integer"
+        },
+        "spec_violation": {
+          "default": 0,
+          "title": "Spec Violation",
+          "type": "integer"
+        },
+        "stable_non_pass": {
+          "default": 0,
+          "title": "Stable Non Pass",
+          "type": "integer"
+        },
+        "stable_pass": {
+          "default": 0,
+          "title": "Stable Pass",
+          "type": "integer"
+        },
+        "target_key": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Key"
+        }
+      },
+      "required": [
+        "category"
+      ],
+      "title": "CategorySummary",
+      "type": "object"
+    },
+    "CellState": {
+      "description": "What a matrix cell holds.\n\nA superset of the classifications a run can produce, plus the two states a\ncell can be in for reasons that are not results: nothing applied here, and\nnobody measured here. Both are displayed; neither is a failure.",
+      "enum": [
+        "PASS",
+        "SPEC_VIOLATION",
+        "INVALID_WIRE_MESSAGE",
+        "BEHAVIORAL_DIVERGENCE",
+        "EXPECTED_DIFFERENCE",
+        "CRASH",
+        "HANG",
+        "TIMEOUT",
+        "RECOVERY_FAILURE",
+        "CLEANUP_FAILURE",
+        "SECURITY_RELEVANT",
+        "INCONCLUSIVE",
+        "NOT_APPLICABLE",
+        "NOT_MEASURED",
+        "HARNESS_ERROR"
+      ],
+      "title": "CellState",
+      "type": "string"
+    },
+    "ContainmentEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "builder_local_image_identity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Builder Local Image Identity"
+        },
+        "cleanup_ok": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Cleanup Ok"
+        },
+        "facts": {
+          "items": {
+            "$ref": "#/$defs/ContainmentFact"
+          },
+          "title": "Facts",
+          "type": "array"
+        },
+        "image_source_kind": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Image Source Kind"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "mode": {
+          "title": "Mode",
+          "type": "string"
+        },
+        "outcome": {
+          "title": "Outcome",
+          "type": "string"
+        },
+        "portable_build_identity": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Portable Build Identity"
+        },
+        "provenance": {
+          "title": "Provenance",
+          "type": "string"
+        },
+        "target_key": {
+          "title": "Target Key",
+          "type": "string"
+        },
+        "unavailable_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Unavailable Reason"
+        },
+        "usable": {
+          "title": "Usable",
+          "type": "boolean"
+        },
+        "weaknesses": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Weaknesses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "target_key",
+        "mode",
+        "provenance",
+        "outcome",
+        "usable"
+      ],
+      "title": "ContainmentEvidence",
+      "type": "object"
+    },
+    "ContainmentFact": {
+      "additionalProperties": false,
+      "description": "One containment property, requested and observed side by side.\n\nNever merged. A restriction this harness asked for and the runtime did not\napply is the single most important thing this screen can show, and a merged\nvalue would be exactly the one that hides it.",
+      "properties": {
+        "agrees": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Agrees"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "observed": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed"
+        },
+        "requested": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Requested"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ContainmentFact",
+      "type": "object"
+    },
+    "ContainmentOverheadPair": {
+      "additionalProperties": false,
+      "properties": {
+        "contained": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimingCard"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "host": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimingCard"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "overhead_absolute_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Overhead Absolute Ms"
+        },
+        "overhead_ratio": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Overhead Ratio"
+        },
+        "reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason"
+        },
+        "scenario": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scenario"
+        },
+        "state": {
+          "title": "State",
+          "type": "string"
+        },
+        "transport": {
+          "title": "Transport",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transport",
+        "state"
+      ],
+      "title": "ContainmentOverheadPair",
+      "type": "object"
+    },
+    "CoverageState": {
+      "description": "What is actually known about one promised metric.\n\nA deliberately separate enum from :class:`MeasurementState`, which describes\none artifact's timing summary. This describes a *promise*: the methodology\nnamed a dimension, and this says how far that naming was honoured.",
+      "enum": [
+        "measured",
+        "partially_measured",
+        "not_measured",
+        "not_applicable"
+      ],
+      "title": "CoverageState",
+      "type": "string"
+    },
+    "DatasetProvenance": {
+      "additionalProperties": false,
+      "description": "Three separate provenance questions, kept separate.\n\nA single \"generated from\" line runs together three things a reader needs\napart: what defined the *shape* of this document, what produced its\n*numbers*, and what has been deliberately left out. A public-safe build\nassembled from synthetic evidence shares its schema with the private\nbenchmark and shares none of its measurements, and a provenance block that\ncould not say both at once was how the synthetic matrix came to be labelled\nwith the private benchmark's name.",
+      "properties": {
+        "benchmark_identity_note": {
+          "title": "Benchmark Identity Note",
+          "type": "string"
+        },
+        "benchmark_identity_withheld": {
+          "title": "Benchmark Identity Withheld",
+          "type": "boolean"
+        },
+        "benchmark_schema_version": {
+          "title": "Benchmark Schema Version",
+          "type": "string"
+        },
+        "disclaimer": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Disclaimer"
+        },
+        "evidence_kind": {
+          "$ref": "#/$defs/EvidenceKind"
+        },
+        "evidence_note": {
+          "title": "Evidence Note",
+          "type": "string"
+        },
+        "eyebrow": {
+          "title": "Eyebrow",
+          "type": "string"
+        },
+        "harness_version": {
+          "title": "Harness Version",
+          "type": "string"
+        },
+        "schema_lineage": {
+          "title": "Schema Lineage",
+          "type": "string"
+        },
+        "viewer_schema_version": {
+          "title": "Viewer Schema Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_lineage",
+        "viewer_schema_version",
+        "benchmark_schema_version",
+        "harness_version",
+        "evidence_kind",
+        "evidence_note",
+        "benchmark_identity_withheld",
+        "benchmark_identity_note",
+        "eyebrow"
+      ],
+      "title": "DatasetProvenance",
+      "type": "object"
+    },
+    "DisclosureControls": {
+      "additionalProperties": false,
+      "description": "What this document is allowed to be, recorded inside the document.\n\nA build that bundles a dataset cannot then claim a different provenance for\nit, and a public-safe dataset that was never approved for anonymised labels\nsays so here rather than in a commit message nobody reads at deploy time.",
+      "properties": {
+        "anonymization_approved": {
+          "default": false,
+          "title": "Anonymization Approved",
+          "type": "boolean"
+        },
+        "approval_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approval Reference"
+        },
+        "denylist_term_count": {
+          "default": 0,
+          "title": "Denylist Term Count",
+          "type": "integer"
+        },
+        "notes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "publishable": {
+          "default": false,
+          "title": "Publishable",
+          "type": "boolean"
+        },
+        "redactions_applied": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Redactions Applied",
+          "type": "array"
+        },
+        "visibility_mode": {
+          "$ref": "#/$defs/VisibilityMode"
+        }
+      },
+      "required": [
+        "visibility_mode"
+      ],
+      "title": "DisclosureControls",
+      "type": "object"
+    },
+    "EvidenceKind": {
+      "description": "Where the numbers in this document came from.\n\nThe distinction the viewer's labelling turns on. A real measurement and an\ninvented one can be rendered by the same component, and only this field\nstops a reader from taking the second for the first.",
+      "enum": [
+        "real-measurement",
+        "synthetic"
+      ],
+      "title": "EvidenceKind",
+      "type": "string"
+    },
+    "LimitationEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "scope": {
+          "title": "Scope",
+          "type": "string"
+        },
+        "text": {
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scope",
+        "text"
+      ],
+      "title": "LimitationEntry",
+      "type": "object"
+    },
+    "MatrixCell": {
+      "additionalProperties": false,
+      "description": "One target and one scenario, carrying everything a reader needs beside it.\n\nThe denominator, the repetition count and the limitations travel *in* the\ncell. A view that looked them up elsewhere would be free to look up the wrong\nones, and the rule this project turns on \u2014 that a rate is quoted against the\napplicable set and never against the whole battery \u2014 would then hold only by\nconvention.",
+      "properties": {
+        "applicable": {
+          "title": "Applicable",
+          "type": "boolean"
+        },
+        "applicable_denominator": {
+          "title": "Applicable Denominator",
+          "type": "integer"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "normative": {
+          "default": false,
+          "title": "Normative",
+          "type": "boolean"
+        },
+        "profile": {
+          "title": "Profile",
+          "type": "string"
+        },
+        "repetition_results": {
+          "items": {
+            "$ref": "#/$defs/RepetitionResult"
+          },
+          "title": "Repetition Results",
+          "type": "array"
+        },
+        "repetitions": {
+          "title": "Repetitions",
+          "type": "integer"
+        },
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "security_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Security Category"
+        },
+        "security_relevant": {
+          "default": false,
+          "title": "Security Relevant",
+          "type": "boolean"
+        },
+        "signature_digests": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Signature Digests",
+          "type": "array"
+        },
+        "signature_stable": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signature Stable"
+        },
+        "state": {
+          "$ref": "#/$defs/CellState"
+        },
+        "target_key": {
+          "title": "Target Key",
+          "type": "string"
+        },
+        "transport": {
+          "title": "Transport",
+          "type": "string"
+        },
+        "valid_repetitions": {
+          "title": "Valid Repetitions",
+          "type": "integer"
+        },
+        "vulnerability_status": {
+          "default": "not_assessed",
+          "title": "Vulnerability Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_key",
+        "scenario_id",
+        "category",
+        "state",
+        "applicable_denominator",
+        "applicable",
+        "repetitions",
+        "valid_repetitions",
+        "profile",
+        "transport"
+      ],
+      "title": "MatrixCell",
+      "type": "object"
+    },
+    "MeasurementCategory": {
+      "description": "What kind of work the metric times. Grouping for a reader, nothing more.",
+      "enum": [
+        "build",
+        "discovery",
+        "execution",
+        "analysis",
+        "gate",
+        "containment",
+        "reproducibility"
+      ],
+      "title": "MeasurementCategory",
+      "type": "string"
+    },
+    "MeasurementCoverage": {
+      "additionalProperties": false,
+      "description": "The whole ledger. Complete by construction, or it does not validate.",
+      "properties": {
+        "coverage_schema_version": {
+          "default": "1",
+          "title": "Coverage Schema Version",
+          "type": "string"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/MeasurementCoverageEntry"
+          },
+          "title": "Entries",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        }
+      },
+      "title": "MeasurementCoverage",
+      "type": "object"
+    },
+    "MeasurementCoverageEntry": {
+      "additionalProperties": false,
+      "description": "One promised metric, and everything a reader needs to judge it.",
+      "properties": {
+        "artifact_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Artifact Reference"
+        },
+        "category": {
+          "$ref": "#/$defs/MeasurementCategory"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "environment": {
+          "title": "Environment",
+          "type": "string"
+        },
+        "limitation": {
+          "title": "Limitation",
+          "type": "string"
+        },
+        "measurement_method": {
+          "title": "Measurement Method",
+          "type": "string"
+        },
+        "metric_id": {
+          "title": "Metric Id",
+          "type": "string"
+        },
+        "minimum_required_samples": {
+          "default": 5,
+          "title": "Minimum Required Samples",
+          "type": "integer"
+        },
+        "reason_not_measured": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reason Not Measured"
+        },
+        "sample_count": {
+          "default": 0,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "state": {
+          "$ref": "#/$defs/CoverageState"
+        },
+        "warmup_count": {
+          "default": 0,
+          "title": "Warmup Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "metric_id",
+        "display_name",
+        "category",
+        "state",
+        "measurement_method",
+        "environment",
+        "limitation"
+      ],
+      "title": "MeasurementCoverageEntry",
+      "type": "object"
+    },
+    "MethodologySection": {
+      "additionalProperties": false,
+      "properties": {
+        "body": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Body",
+          "type": "array"
+        },
+        "section_id": {
+          "title": "Section Id",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        }
+      },
+      "required": [
+        "section_id",
+        "title"
+      ],
+      "title": "MethodologySection",
+      "type": "object"
+    },
+    "OverviewTotals": {
+      "additionalProperties": false,
+      "description": "The figures the first screen shows. Deliberately not a score.\n\nThere is no field here that combines the others, and there is no ordering of\ntargets. Thirty-two scenarios against three implementations cannot support\none, and a single number would be read as though it could.",
+      "properties": {
+        "applicable_results": {
+          "default": 0,
+          "title": "Applicable Results",
+          "type": "integer"
+        },
+        "confirmed_private_vulnerabilities": {
+          "default": 0,
+          "title": "Confirmed Private Vulnerabilities",
+          "type": "integer"
+        },
+        "correctness_repetitions": {
+          "default": 0,
+          "title": "Correctness Repetitions",
+          "type": "integer"
+        },
+        "harness_error": {
+          "default": 0,
+          "title": "Harness Error",
+          "type": "integer"
+        },
+        "inconclusive": {
+          "default": 0,
+          "title": "Inconclusive",
+          "type": "integer"
+        },
+        "languages": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Languages",
+          "type": "array"
+        },
+        "not_applicable": {
+          "default": 0,
+          "title": "Not Applicable",
+          "type": "integer"
+        },
+        "not_measured": {
+          "default": 0,
+          "title": "Not Measured",
+          "type": "integer"
+        },
+        "profiles": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Profiles",
+          "type": "array"
+        },
+        "scenario_count": {
+          "default": 0,
+          "title": "Scenario Count",
+          "type": "integer"
+        },
+        "security_relevant_observations": {
+          "default": 0,
+          "title": "Security Relevant Observations",
+          "type": "integer"
+        },
+        "stable_non_pass": {
+          "default": 0,
+          "title": "Stable Non Pass",
+          "type": "integer"
+        },
+        "stable_pass": {
+          "default": 0,
+          "title": "Stable Pass",
+          "type": "integer"
+        },
+        "target_count": {
+          "default": 0,
+          "title": "Target Count",
+          "type": "integer"
+        },
+        "transports": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Transports",
+          "type": "array"
+        }
+      },
+      "title": "OverviewTotals",
+      "type": "object"
+    },
+    "ProjectSummary": {
+      "additionalProperties": false,
+      "description": "What the project is, in the words the repository already uses.",
+      "properties": {
+        "approach": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Approach",
+          "type": "array"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "not_claimed": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Not Claimed",
+          "type": "array"
+        },
+        "problem": {
+          "title": "Problem",
+          "type": "string"
+        },
+        "tagline": {
+          "title": "Tagline",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "tagline",
+        "problem"
+      ],
+      "title": "ProjectSummary",
+      "type": "object"
+    },
+    "RepetitionResult": {
+      "additionalProperties": false,
+      "description": "One repetition of one scenario against one target.",
+      "properties": {
+        "classification": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Classification"
+        },
+        "rejections": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejections",
+          "type": "array"
+        },
+        "repetition": {
+          "title": "Repetition",
+          "type": "integer"
+        },
+        "result_signature_digest": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Signature Digest"
+        },
+        "valid_sample": {
+          "default": true,
+          "title": "Valid Sample",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repetition"
+      ],
+      "title": "RepetitionResult",
+      "type": "object"
+    },
+    "ReproductionSummary": {
+      "additionalProperties": false,
+      "description": "One reproduction package, described without exposing what it contains.",
+      "properties": {
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "minimization_status": {
+          "default": "not_measured",
+          "title": "Minimization Status",
+          "type": "string"
+        },
+        "minimized_body_bytes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimized Body Bytes"
+        },
+        "minimized_event_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimized Event Count"
+        },
+        "original_body_bytes": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Body Bytes"
+        },
+        "original_event_count": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Original Event Count"
+        },
+        "preserved_signature": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Preserved Signature"
+        },
+        "reference": {
+          "title": "Reference",
+          "type": "string"
+        },
+        "replay_requirements": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Replay Requirements",
+          "type": "array"
+        },
+        "stability_runs": {
+          "default": 0,
+          "title": "Stability Runs",
+          "type": "integer"
+        },
+        "status": {
+          "title": "Status",
+          "type": "string"
+        },
+        "synthetic": {
+          "default": false,
+          "title": "Synthetic",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "reference",
+        "status"
+      ],
+      "title": "ReproductionSummary",
+      "type": "object"
+    },
+    "SignatureRecord": {
+      "additionalProperties": false,
+      "description": "One repetition's complete result signature, as the stability contract.",
+      "properties": {
+        "assertions": {
+          "items": {
+            "$ref": "#/$defs/AssertionSignatureView"
+          },
+          "title": "Assertions",
+          "type": "array"
+        },
+        "capability_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capability Fingerprint"
+        },
+        "classification": {
+          "title": "Classification",
+          "type": "string"
+        },
+        "cleanup_ok": {
+          "default": true,
+          "title": "Cleanup Ok",
+          "type": "boolean"
+        },
+        "containment_outcome": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Containment Outcome"
+        },
+        "containment_usable": {
+          "default": true,
+          "title": "Containment Usable",
+          "type": "boolean"
+        },
+        "digest": {
+          "title": "Digest",
+          "type": "string"
+        },
+        "exit_code": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Exit Code"
+        },
+        "failed_assertion_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Failed Assertion Ids",
+          "type": "array"
+        },
+        "first_meaningful_difference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "First Meaningful Difference"
+        },
+        "killed_by_harness": {
+          "default": false,
+          "title": "Killed By Harness",
+          "type": "boolean"
+        },
+        "normative": {
+          "default": false,
+          "title": "Normative",
+          "type": "boolean"
+        },
+        "repetition": {
+          "title": "Repetition",
+          "type": "integer"
+        },
+        "scenario_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Scenario Fingerprint"
+        },
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "security_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Security Category"
+        },
+        "security_relevant": {
+          "default": false,
+          "title": "Security Relevant",
+          "type": "boolean"
+        },
+        "signal": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal"
+        },
+        "signature_version": {
+          "title": "Signature Version",
+          "type": "integer"
+        },
+        "target_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Fingerprint"
+        },
+        "target_key": {
+          "title": "Target Key",
+          "type": "string"
+        },
+        "timeout_cause": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Timeout Cause"
+        },
+        "vulnerability_status": {
+          "default": "not_assessed",
+          "title": "Vulnerability Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_key",
+        "scenario_id",
+        "repetition",
+        "digest",
+        "signature_version",
+        "classification"
+      ],
+      "title": "SignatureRecord",
+      "type": "object"
+    },
+    "TimingCard": {
+      "additionalProperties": false,
+      "description": "One timing, with everything that decides whether it means anything.\n\n``state`` is never omitted and NOT_MEASURED is never dropped. A timings\nscreen that showed only the timings it had would let a reader conclude that\nwas the whole set, which is the failure this whole checkpoint is about.",
+      "properties": {
+        "environment": {
+          "default": "",
+          "title": "Environment",
+          "type": "string"
+        },
+        "insufficient_reason": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Insufficient Reason"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "max_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Ms"
+        },
+        "median_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Median Ms"
+        },
+        "metric_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Metric Id"
+        },
+        "min_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Min Ms"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "rejected_samples": {
+          "default": 0,
+          "title": "Rejected Samples",
+          "type": "integer"
+        },
+        "sample_count": {
+          "default": 0,
+          "title": "Sample Count",
+          "type": "integer"
+        },
+        "samples_ms": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Samples Ms",
+          "type": "array"
+        },
+        "single_value_ms": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Single Value Ms"
+        },
+        "state": {
+          "title": "State",
+          "type": "string"
+        },
+        "unit": {
+          "default": "ms",
+          "title": "Unit",
+          "type": "string"
+        },
+        "warmup_count": {
+          "default": 0,
+          "title": "Warmup Count",
+          "type": "integer"
+        },
+        "warmup_samples_ms": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Warmup Samples Ms",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "state"
+      ],
+      "title": "TimingCard",
+      "type": "object"
+    },
+    "ToolSurface": {
+      "additionalProperties": false,
+      "properties": {
+        "input_schema_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Schema Fingerprint"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "output_schema_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Schema Fingerprint"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ToolSurface",
+      "type": "object"
+    },
+    "ViewerScenario": {
+      "additionalProperties": false,
+      "properties": {
+        "applicability_max_spec_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applicability Max Spec Version"
+        },
+        "applicability_min_spec_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Applicability Min Spec Version"
+        },
+        "applicability_profiles": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Applicability Profiles",
+          "type": "array"
+        },
+        "applicability_transports": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Applicability Transports",
+          "type": "array"
+        },
+        "assertion_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assertion Ids",
+          "type": "array"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "expected_outcome": {
+          "title": "Expected Outcome",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "nature": {
+          "title": "Nature",
+          "type": "string"
+        },
+        "normative_source": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Normative Source"
+        },
+        "purpose": {
+          "title": "Purpose",
+          "type": "string"
+        },
+        "rationale": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Rationale"
+        },
+        "requires_observed_surface": {
+          "default": false,
+          "title": "Requires Observed Surface",
+          "type": "boolean"
+        },
+        "requires_safe_tool_invocation": {
+          "default": false,
+          "title": "Requires Safe Tool Invocation",
+          "type": "boolean"
+        },
+        "requires_tools": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Requires Tools",
+          "type": "array"
+        },
+        "requires_transport_features": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Requires Transport Features",
+          "type": "object"
+        },
+        "scenario_category": {
+          "title": "Scenario Category",
+          "type": "string"
+        },
+        "scenario_fingerprint": {
+          "title": "Scenario Fingerprint",
+          "type": "string"
+        },
+        "scenario_id": {
+          "title": "Scenario Id",
+          "type": "string"
+        },
+        "security_category": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Security Category"
+        },
+        "severity": {
+          "title": "Severity",
+          "type": "string"
+        },
+        "title": {
+          "title": "Title",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "scenario_id",
+        "version",
+        "title",
+        "category",
+        "scenario_category",
+        "nature",
+        "purpose",
+        "expected_outcome",
+        "severity",
+        "scenario_fingerprint"
+      ],
+      "title": "ViewerScenario",
+      "type": "object"
+    },
+    "ViewerTarget": {
+      "additionalProperties": false,
+      "description": "One implementation under measurement, as the viewer may show it.",
+      "properties": {
+        "build_context": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Build Context"
+        },
+        "capability_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capability Fingerprint"
+        },
+        "declared_profile": {
+          "title": "Declared Profile",
+          "type": "string"
+        },
+        "display_name": {
+          "title": "Display Name",
+          "type": "string"
+        },
+        "dockerfile_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dockerfile Sha256"
+        },
+        "language": {
+          "title": "Language",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "lock_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lock Sha256"
+        },
+        "negotiated_profile": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Negotiated Profile"
+        },
+        "official_conformance": {
+          "title": "Official Conformance",
+          "type": "string"
+        },
+        "official_conformance_detail": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Official Conformance Detail"
+        },
+        "portable_identity_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Portable Identity Fingerprint"
+        },
+        "relationship": {
+          "title": "Relationship",
+          "type": "string"
+        },
+        "source_archive_sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Archive Sha256"
+        },
+        "source_commit": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Commit"
+        },
+        "source_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Version"
+        },
+        "target_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target File"
+        },
+        "target_fingerprint": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Fingerprint"
+        },
+        "target_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Id"
+        },
+        "target_key": {
+          "title": "Target Key",
+          "type": "string"
+        },
+        "transport": {
+          "title": "Transport",
+          "type": "string"
+        }
+      },
+      "required": [
+        "target_key",
+        "display_name",
+        "language",
+        "transport",
+        "declared_profile",
+        "relationship",
+        "official_conformance"
+      ],
+      "title": "ViewerTarget",
+      "type": "object"
+    },
+    "VisibilityMode": {
+      "description": "Which of the two datasets this is.\n\nNot a display preference. The two modes are produced by different code paths\nwith different admissible content, and the mode travels inside the document\nso a build cannot mislabel what it bundled.",
+      "enum": [
+        "private",
+        "public-safe"
+      ],
+      "title": "VisibilityMode",
+      "type": "string"
+    }
+  },
+  "$id": "https://interop-lab.invalid/schemas/viewer-1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Generated from interop_lab.viewer.model. Every definition rejects unknown fields: a dataset carrying a key this schema does not name was written against a different version of the exporter, and rendering it leniently would put values on a screen that nothing checked.",
+  "properties": {
+    "benchmark": {
+      "$ref": "#/$defs/BenchmarkIdentity"
+    },
+    "capabilities": {
+      "items": {
+        "$ref": "#/$defs/CapabilitySurface"
+      },
+      "title": "Capabilities",
+      "type": "array"
+    },
+    "categories": {
+      "items": {
+        "$ref": "#/$defs/CategorySummary"
+      },
+      "title": "Categories",
+      "type": "array"
+    },
+    "containment": {
+      "items": {
+        "$ref": "#/$defs/ContainmentEvidence"
+      },
+      "title": "Containment",
+      "type": "array"
+    },
+    "containment_overhead": {
+      "items": {
+        "$ref": "#/$defs/ContainmentOverheadPair"
+      },
+      "title": "Containment Overhead",
+      "type": "array"
+    },
+    "disclosure_controls": {
+      "$ref": "#/$defs/DisclosureControls"
+    },
+    "generated_at": {
+      "title": "Generated At",
+      "type": "string"
+    },
+    "generated_from_benchmark_manifest_hash": {
+      "title": "Generated From Benchmark Manifest Hash",
+      "type": "string"
+    },
+    "generated_from_harness_commit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Generated From Harness Commit"
+    },
+    "limitations": {
+      "items": {
+        "$ref": "#/$defs/LimitationEntry"
+      },
+      "title": "Limitations",
+      "type": "array"
+    },
+    "matrix": {
+      "items": {
+        "$ref": "#/$defs/MatrixCell"
+      },
+      "title": "Matrix",
+      "type": "array"
+    },
+    "measurement_coverage": {
+      "$ref": "#/$defs/MeasurementCoverage"
+    },
+    "methodology": {
+      "items": {
+        "$ref": "#/$defs/MethodologySection"
+      },
+      "title": "Methodology",
+      "type": "array"
+    },
+    "overview": {
+      "$ref": "#/$defs/OverviewTotals"
+    },
+    "project": {
+      "$ref": "#/$defs/ProjectSummary"
+    },
+    "provenance": {
+      "$ref": "#/$defs/DatasetProvenance"
+    },
+    "reproduction": {
+      "items": {
+        "$ref": "#/$defs/ReproductionSummary"
+      },
+      "title": "Reproduction",
+      "type": "array"
+    },
+    "result_signatures": {
+      "items": {
+        "$ref": "#/$defs/SignatureRecord"
+      },
+      "title": "Result Signatures",
+      "type": "array"
+    },
+    "scenarios": {
+      "items": {
+        "$ref": "#/$defs/ViewerScenario"
+      },
+      "title": "Scenarios",
+      "type": "array"
+    },
+    "schema_version": {
+      "default": "1",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "targets": {
+      "items": {
+        "$ref": "#/$defs/ViewerTarget"
+      },
+      "title": "Targets",
+      "type": "array"
+    },
+    "timings": {
+      "items": {
+        "$ref": "#/$defs/TimingCard"
+      },
+      "title": "Timings",
+      "type": "array"
+    },
+    "visibility_mode": {
+      "$ref": "#/$defs/VisibilityMode"
+    }
+  },
+  "required": [
+    "visibility_mode",
+    "generated_at",
+    "generated_from_benchmark_manifest_hash",
+    "benchmark",
+    "provenance",
+    "project",
+    "overview",
+    "measurement_coverage",
+    "disclosure_controls"
+  ],
+  "title": "ViewerDataset",
+  "type": "object"
+}

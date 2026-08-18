@@ -1,0 +1,24 @@
+{
+  "artifact_schema_version": "2",
+  "finding_id": "EX-HTTP-HEADER-MISMATCH-MINIMIZED",
+  "classification": "SPEC_VIOLATION",
+  "title": "Same defect, reached through reducible noise, then automatically minimised",
+  "target_id": "http.fixture.faulty_header_mismatch",
+  "target_version": "0.1.0",
+  "scenario_id": "version.http_header_body_mismatch_noisy",
+  "protocol_profile": "mcp-2026-07-28",
+  "severity": "high",
+  "fact": "The same header/body disagreement was submitted inside a three-step scenario carrying unused body fields and a decorative header. Automatic reduction removed the unrelated steps, the unused fields and the decorative header, while preserving the Mcp-Method mismatch.",
+  "normative_basis": "MCP 2026-07-28 schema.json: HeaderMismatchError, code = -32020 \u2014 'For HTTP, the response status code MUST be 400 Bad Request.'",
+  "interpretation": "Reduction works over HTTP when reducible material exists. The constitutive header survives because header overrides are only reducible when a scenario explicitly nominates them; preserving the failure signature alone would not have been sufficient to protect it.",
+  "limitation": "THIS IS A DELIBERATELY DEFECTIVE LOCAL FIXTURE. The surrounding noise is synthetic material added to demonstrate reduction; it is not something a real client would send. It proves the reducer works, not that any real implementation is defective.",
+  "reproduction": "uv run mcp-failure-lab replay artifacts/examples/http-header-mismatch-minimized/repro.yaml",
+  "first_divergent_seq": 5,
+  "evidence_paths": [
+    "artifact://examples/http-header-mismatch-minimized/wire.jsonl",
+    "artifact://examples/http-header-mismatch-minimized/normalized-wire.jsonl"
+  ],
+  "reproduction_status": "stable",
+  "minimization_status": "minimized",
+  "public_safety": "private"
+}

@@ -1,0 +1,90 @@
+{
+  "title": "MCP Failure Lab — public-safe synthetic walkthrough",
+  "audience": "public",
+  "mode": "public-safe",
+  "note": "Mirrors the private demo's shape over invented data. Every stage that shows a result restates that the result is invented, because a stage screenshotted on its own loses whatever the first one said. Total 188s (3:08), inside the 2:45-3:15 window.",
+  "stages": [
+    {
+      "id": "public-what-this-is",
+      "seconds": 22,
+      "caption": [
+        "PUBLIC-SAFE SYNTHETIC EVIDENCE.",
+        "This demonstration uses invented implementations and synthetic",
+        "measurements. No third-party benchmark result is displayed.",
+        "What is real is the method: the schema, the scenario library, the rules."
+      ]
+    },
+    {
+      "id": "public-problem",
+      "seconds": 20,
+      "caption": [
+        "The problem being measured: two servers can both pass a happy-path",
+        "conformance run and still disagree once the wire is malformed,",
+        "the profile is older than the requirement, or the process is killed."
+      ]
+    },
+    {
+      "id": "public-shape",
+      "seconds": 20,
+      "caption": [
+        "The shape of a measurement — three implementations, two transports,",
+        "the real scenario library.",
+        "Which invented implementation lands where is a deterministic fixture."
+      ]
+    },
+    {
+      "id": "public-applicability",
+      "seconds": 24,
+      "caption": [
+        "Applicability is the rule that carries the project.",
+        "A requirement dated after the profile a server negotiated is never",
+        "asserted against it: NOT_APPLICABLE with a reason, never a pass,",
+        "never a failure. The same rule runs in the private benchmark."
+      ]
+    },
+    {
+      "id": "public-outcome-vs-security",
+      "seconds": 22,
+      "caption": [
+        "Primary outcome and security relevance are different fields,",
+        "and confirmation is a third. No execution path writes the third.",
+        "Nothing here is a security finding about anyone — the rows are invented."
+      ]
+    },
+    {
+      "id": "public-signature",
+      "seconds": 22,
+      "caption": [
+        "Stability is complete signature equality, not a repeated label.",
+        "Two runs that both said 'failed' for different reasons are not stable,",
+        "and this is the mechanism that notices."
+      ]
+    },
+    {
+      "id": "public-timings",
+      "seconds": 20,
+      "caption": [
+        "Timings show every sample rather than a summary of them.",
+        "A median with the samples withheld cannot be checked for the one thing",
+        "that would invalidate it."
+      ]
+    },
+    {
+      "id": "public-coverage",
+      "seconds": 18,
+      "caption": [
+        "What was never measured is listed, not omitted, each with a reason.",
+        "A metric absent from a report is one a reader cannot tell was never taken."
+      ]
+    },
+    {
+      "id": "public-refusals",
+      "seconds": 20,
+      "caption": [
+        "It ends on what the tool refuses to say.",
+        "No ranking, no aggregate score, no best implementation.",
+        "The private benchmark that shares this schema is not represented here."
+      ]
+    }
+  ]
+}

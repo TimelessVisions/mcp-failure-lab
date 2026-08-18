@@ -1,0 +1,43 @@
+target_id: http.fixture.slow_body.contained
+role: fixture
+implementation: "interop-lab HTTP fixture (delayed body), contained"
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/http_server.py"]
+env:
+  INTEROP_FIXTURE_PROFILE: "2026-07-28"
+  INTEROP_FIXTURE_DELAY_MS: "6000"
+  INTEROP_FIXTURE_PORT: "8000"
+  # Safe only inside an --internal network with no published port: the probe
+  # sidecar is the only client that can reach it.
+  INTEROP_FIXTURE_BIND: "0.0.0.0"
+
+transport: streamable_http
+protocol_profile: mcp-2026-07-28
+timeout_s: 30.0
+expected_tools: [echo]
+
+provenance: local_fixture
+execution_mode: container
+container:
+  image_source:
+    # Pulled from a registry, so the repository digest is the identity and
+    # nothing has to be built. The tag is informational; the digest resolves.
+    kind: registry
+    repository: "mirror.gcr.io/library/python"
+    repository_digest: "sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36"
+    display_tag: "3.12-slim"
+  network: isolated_sidecar
+  container_port: 8000
+  memory_mb: 256
+  cpus: 0.5
+  pids_limit: 64
+  read_only_root: true
+  user: "65534:65534"
+  repo_mounts: ["fixtures"]
+  startup_timeout_s: 60.0
+
+notes: >-
+  Conforming, but stalls between response headers and body completion. Contained,
+  so the stall is observed by the probe rather than by a host socket. Exercises
+  body-completion timeout separately from header timeout. Synthetic.

@@ -1,0 +1,641 @@
+{
+  "artifact_schema_version": "2",
+  "baseline_schema_version": "4",
+  "harness_version": "0.1.0",
+  "baseline_id": "contained-http",
+  "created_at": "2026-08-15T02:09:55.091338+00:00",
+  "created_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+  "created_by": "291026418+TimelessVisions@users.noreply.github.com",
+  "target_fingerprint_version": 3,
+  "protocol_profiles": [
+    "mcp-2025-11-25",
+    "mcp-2026-07-28"
+  ],
+  "suite": "contained-http",
+  "suite_fingerprint": "e5eab984d32ab8b6",
+  "target_fingerprints": {
+    "http.fixture.2026.contained": "f188144f9c041096",
+    "http.fixture.2025.contained": "536b340dcd20e43a",
+    "http.fixture.faulty_header_mismatch.contained": "1501ac1c7e2578c8"
+  },
+  "policy": {
+    "fail_on_new_normative_failure": true,
+    "fail_on_crash": true,
+    "fail_on_hang": true,
+    "fail_on_harness_error": true,
+    "fail_on_cleanup_failure": true,
+    "fail_on_missing_target": true,
+    "fail_on_missing_scenario": true,
+    "fail_on_target_fingerprint_drift": true,
+    "fail_on_scenario_fingerprint_drift": true,
+    "fail_on_reproduction_instability": true,
+    "new_behavioral_divergence": "warn",
+    "runtime_version_drift": "warn",
+    "capability_drift": "fail",
+    "unknown_result": "fail",
+    "fail_on_conformance_outcome_change": true,
+    "fail_on_new_security_relevant_result": true,
+    "inconclusive_result": "fail"
+  },
+  "entries": [
+    {
+      "target_id": "http.fixture.2026.contained",
+      "target_fingerprint": "f188144f9c041096",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.http_tools_list__http.fixture.2026.contained__3656ae44/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2025.contained",
+      "target_fingerprint": "536b340dcd20e43a",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": "7104c68d6f13d48db6646f64709175ed01dea86193a7f12d0f25a167de991ccf",
+      "approved_capability_surface": {
+        "negotiated_profile": "2025-11-25",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {
+          "tools": {}
+        },
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan",
+          "initialization_completed": true,
+          "session_identifier_issued": true,
+          "session_identifier_header_name": "Mcp-Session-Id"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.http_tools_list__http.fixture.2025.contained__b6699beb/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch.contained",
+      "target_fingerprint": "1501ac1c7e2578c8",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.http_tools_list__http.fixture.faulty_header_mismatch.contained__a52fbcb9/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026.contained",
+      "target_fingerprint": "f188144f9c041096",
+      "scenario_id": "wire.http_malformed_body",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5562c10f021d8548",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": true,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.http_malformed_body__http.fixture.2026.contained__f0762357/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2025.contained",
+      "target_fingerprint": "536b340dcd20e43a",
+      "scenario_id": "wire.http_malformed_body",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5562c10f021d8548",
+      "capability_fingerprint": "7104c68d6f13d48db6646f64709175ed01dea86193a7f12d0f25a167de991ccf",
+      "approved_capability_surface": {
+        "negotiated_profile": "2025-11-25",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {
+          "tools": {}
+        },
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan",
+          "initialization_completed": true,
+          "session_identifier_issued": true,
+          "session_identifier_header_name": "Mcp-Session-Id"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": true,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.http_malformed_body__http.fixture.2025.contained__a729c22d/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch.contained",
+      "target_fingerprint": "1501ac1c7e2578c8",
+      "scenario_id": "wire.http_malformed_body",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5562c10f021d8548",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": true,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.http_malformed_body__http.fixture.faulty_header_mismatch.contained__5d5028ac/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026.contained",
+      "target_fingerprint": "f188144f9c041096",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/version.http_header_body_mismatch__http.fixture.2026.contained__399e04e4/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2025.contained",
+      "target_fingerprint": "536b340dcd20e43a",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch.contained",
+      "target_fingerprint": "1501ac1c7e2578c8",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "SPEC_VIOLATION",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": true,
+        "security_category": "header_body_authorization_split",
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "unconfirmed",
+        "security_limitations": [
+          "Asserted against local fixtures only. No third-party implementation is named or evaluated by this scenario.",
+          "That a server accepts a disagreeing header is established here. That an intermediary in front of it would authorize on the header is an assumption about a deployment this harness does not measure."
+        ]
+      },
+      "expected_failed_assertions": [
+        "is_error",
+        "code_32020"
+      ],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/version.http_header_body_mismatch__http.fixture.faulty_header_mismatch.contained__99c07f53/wire.jsonl",
+      "approval_reason": "Synthetic defect written in this repository to prove detection works. It is expected to fail and is never a third-party defect.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026.contained",
+      "target_fingerprint": "f188144f9c041096",
+      "scenario_id": "transport.http_notification_accepted",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3179fb93e52db770",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/transport.http_notification_accepted__http.fixture.2026.contained__c79cb9c0/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2025.contained",
+      "target_fingerprint": "536b340dcd20e43a",
+      "scenario_id": "transport.http_notification_accepted",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3179fb93e52db770",
+      "capability_fingerprint": "7104c68d6f13d48db6646f64709175ed01dea86193a7f12d0f25a167de991ccf",
+      "approved_capability_surface": {
+        "negotiated_profile": "2025-11-25",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {
+          "tools": {}
+        },
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan",
+          "initialization_completed": true,
+          "session_identifier_issued": true,
+          "session_identifier_header_name": "Mcp-Session-Id"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/transport.http_notification_accepted__http.fixture.2025.contained__96d67813/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch.contained",
+      "target_fingerprint": "1501ac1c7e2578c8",
+      "scenario_id": "transport.http_notification_accepted",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3179fb93e52db770",
+      "capability_fingerprint": "9aae2838ae625b0e54c10ce55084f2d3c413cdd69c2092ea6a1243aa02a3deed",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/transport.http_notification_accepted__http.fixture.faulty_header_mismatch.contained__7a9c5a6f/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026.contained",
+      "target_fingerprint": "f188144f9c041096",
+      "scenario_id": "transport.http_get_stream_or_405",
+      "scenario_version": "1",
+      "scenario_fingerprint": "1183e25cb109c241",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": false,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2025.contained",
+      "target_fingerprint": "536b340dcd20e43a",
+      "scenario_id": "transport.http_get_stream_or_405",
+      "scenario_version": "1",
+      "scenario_fingerprint": "1183e25cb109c241",
+      "capability_fingerprint": "7104c68d6f13d48db6646f64709175ed01dea86193a7f12d0f25a167de991ccf",
+      "approved_capability_surface": {
+        "negotiated_profile": "2025-11-25",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {
+          "tools": {}
+        },
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "contained_http_plan",
+          "initialization_completed": true,
+          "session_identifier_issued": true,
+          "session_identifier_header_name": "Mcp-Session-Id"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/transport.http_get_stream_or_405__http.fixture.2025.contained__e5d1a227/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch.contained",
+      "target_fingerprint": "1501ac1c7e2578c8",
+      "scenario_id": "transport.http_get_stream_or_405",
+      "scenario_version": "1",
+      "scenario_fingerprint": "1183e25cb109c241",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": false,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly while stating that every entry was measured as not security-relevant and that a safe-invocation entry needed no observation of the target — neither of which anyone approved.",
+      "reproduction": null
+    }
+  ]
+}

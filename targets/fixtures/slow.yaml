@@ -1,0 +1,15 @@
+target_id: fixture.slow
+role: fixture
+implementation: interop-lab reference fixture (delayed responses)
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/reference_server.py"]
+env:
+  INTEROP_FIXTURE_DELAY_MS: "5000"
+transport: stdio
+protocol_profile: mcp-2026-07-28
+timeout_s: 10.0
+expected_tools: [echo, slow_echo]
+notes: >-
+  Conforming, but answers slow_echo after 5s. Used to exercise deadline
+  handling deterministically without killing the process.

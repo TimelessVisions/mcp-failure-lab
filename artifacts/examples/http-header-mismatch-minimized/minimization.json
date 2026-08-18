@@ -1,0 +1,28 @@
+{
+  "scenario_id": "version.http_header_body_mismatch_noisy",
+  "target_id": "http.fixture.faulty_header_mismatch",
+  "classification": "SPEC_VIOLATION",
+  "original_event_count": 3,
+  "minimized_event_count": 1,
+  "original_body_bytes": 629,
+  "minimized_body_bytes": 2,
+  "original_header_override_bytes": 79,
+  "minimized_header_override_bytes": 28,
+  "original_mutation_surface_bytes": 708,
+  "minimized_mutation_surface_bytes": 30,
+  "candidate_runs": 11,
+  "duration_s": 0,
+  "stability_runs": 3,
+  "stable": true,
+  "stages_applied": [
+    "remove_optional_steps",
+    "remove_payload_fields",
+    "remove_header_overrides"
+  ],
+  "preserved_failing_assertions": [
+    "is_error",
+    "code_32020"
+  ],
+  "already_minimal": false,
+  "reduced": true
+}

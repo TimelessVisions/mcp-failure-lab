@@ -1,0 +1,16 @@
+suite_id: release_gate_contained_http
+description: >-
+  The scenarios the contained HTTP gate protects. Small on purpose: every entry
+  must produce a trustworthy artifact, and each one exercises a different part
+  of the contained path — the stateless baseline, the stateful handshake, a
+  byte-exact malformed body, and a header/body disagreement.
+scenarios:
+  - baseline.http_tools_list
+  - wire.http_malformed_body
+  - version.http_header_body_mismatch
+  # Transport-binding semantics under containment: a notification answered at
+  # the transport level, and a GET that must be a stream or a 405. Both are
+  # new machinery — a step kind that speaks HTTP rather than JSON-RPC — and
+  # the gate is where machinery is held still.
+  - transport.http_notification_accepted
+  - transport.http_get_stream_or_405

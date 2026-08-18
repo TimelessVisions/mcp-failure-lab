@@ -1,0 +1,11 @@
+# The contained HTTP matrix with the conforming 2026 fixture swapped for a
+# regressed build carrying the same target id. Used only to prove the contained
+# gate fails; never part of the ordinary matrix.
+matrix_id: contained_http-regressed
+description: >-
+  A deliberate regression in the contained path: the target the baseline
+  approves as PASS now ignores header/body disagreement.
+targets:
+  - targets/http/regressed-2026-contained.yaml
+  - targets/http/fixture-2025-contained.yaml
+  - targets/http/faulty-header-mismatch-contained.yaml

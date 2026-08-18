@@ -1,0 +1,9 @@
+{
+  "name": "interop-lab-conformance-tool",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Pinned boundary to the official MCP conformance framework. Invoked as a subprocess; never vendored.",
+  "dependencies": {
+    "@modelcontextprotocol/conformance": "0.2.0-alpha.11"
+  }
+}

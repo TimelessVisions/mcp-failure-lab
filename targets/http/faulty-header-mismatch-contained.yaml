@@ -1,0 +1,64 @@
+target_id: http.fixture.faulty_header_mismatch.contained
+role: fixture
+implementation: "interop-lab HTTP fixture (defect: ignore_header_body_mismatch), contained"
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/http_server.py"]
+env:
+  INTEROP_FIXTURE_PROFILE: "2026-07-28"
+  INTEROP_FIXTURE_DEFECTS: "ignore_header_body_mismatch"
+  INTEROP_FIXTURE_PORT: "8000"
+  # Safe only inside an --internal network with no published port: the probe
+  # sidecar is the only client that can reach it.
+  INTEROP_FIXTURE_BIND: "0.0.0.0"
+
+transport: streamable_http
+protocol_profile: mcp-2026-07-28
+timeout_s: 30.0
+expected_tools: [echo]
+
+# One reviewed call this target may be asked to perform. Written here, in the
+# target file, rather than as a constant inside the tools/call scenario: the
+# argument name is `text` for this fixture and `message` for two of the three
+# external servers, so a scenario carrying either one would be applicable to
+# some targets and silently skipped against the rest.
+safe_tool_invocation:
+  tool_name: echo
+  arguments:
+    text: "interop-lab-safe-invocation"
+  purpose: >-
+    Positive control for the tools/call path, on the same scenario the external
+    targets run, so a failure there can be told apart from a broken harness.
+  expected_input_schema_sha256: "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+  side_effect_class: none
+  expected_result_shape: >-
+    A CallToolResult whose `content` is an array containing the echoed text.
+  limitations:
+    - >-
+      A fixture written in this repository. It establishes that the harness's
+      invocation path works, never that any third-party server is correct.
+
+provenance: local_fixture
+execution_mode: container
+container:
+  image_source:
+    # Pulled from a registry, so the repository digest is the identity and
+    # nothing has to be built. The tag is informational; the digest resolves.
+    kind: registry
+    repository: "mirror.gcr.io/library/python"
+    repository_digest: "sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36"
+    display_tag: "3.12-slim"
+  network: isolated_sidecar
+  container_port: 8000
+  memory_mb: 256
+  cpus: 0.5
+  pids_limit: 64
+  read_only_root: true
+  user: "65534:65534"
+  repo_mounts: ["fixtures"]
+  startup_timeout_s: 60.0
+
+notes: >-
+  DELIBERATELY DEFECTIVE local fixture, contained. Accepts a Mcp-Method header
+  that disagrees with the body instead of rejecting it. Synthetic: it is a defect
+  written here to prove detection works, and is never a third-party defect.

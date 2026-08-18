@@ -1,0 +1,19 @@
+suite_id: release_gate_mvp
+description: >-
+  The scenarios the gate protects. Deliberately small: every entry must produce
+  a trustworthy artifact.
+scenarios:
+  - baseline.tools_list
+  - baseline.tool_call
+  # The same tool-invocation path, bound to each target's approved contract
+  # rather than to a tool name borrowed from a fixture. In the gate because
+  # the binding is what makes the scenario applicable to the external matrix,
+  # and a binding nothing protects is one that can quietly stop working.
+  - baseline.safe_tool_call
+  - version.result_type_required
+  - baseline.http_tools_list
+  - version.http_header_body_mismatch
+  # One cross-transport request-integrity scenario, so the parse-error /
+  # invalid-request distinction is protected on both transports by the gate
+  # rather than only observed in the external matrix.
+  - wire.missing_method

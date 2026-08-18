@@ -1,0 +1,36 @@
+target_id: fixture.faulty_wrong_id
+role: fixture
+implementation: "interop-lab reference fixture (defect: wrong_response_id)"
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/reference_server.py"]
+env:
+  INTEROP_FIXTURE_DEFECTS: wrong_response_id
+transport: stdio
+protocol_profile: mcp-2026-07-28
+timeout_s: 10.0
+expected_tools: [echo, slow_echo]
+
+# One reviewed call this target may be asked to perform. Written here, in the
+# target file, rather than as a constant inside the tools/call scenario: the
+# argument name is `text` for this fixture and `message` for two of the three
+# external servers, so a scenario carrying either one would be applicable to
+# some targets and silently skipped against the rest.
+safe_tool_invocation:
+  tool_name: echo
+  arguments:
+    text: "interop-lab-safe-invocation"
+  purpose: >-
+    Positive control for the tools/call path, on the same scenario the external
+    targets run, so a failure there can be told apart from a broken harness.
+  expected_input_schema_sha256: "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+  side_effect_class: none
+  expected_result_shape: >-
+    A CallToolResult whose `content` is an array containing the echoed text.
+  limitations:
+    - >-
+      A fixture written in this repository. It establishes that the harness's
+      invocation path works, never that any third-party server is correct.
+notes: >-
+  DELIBERATELY DEFECTIVE local fixture. Answers tools/call with a JSON-RPC id
+  that does not match the request, breaking client correlation. Synthetic.

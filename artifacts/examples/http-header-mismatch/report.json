@@ -1,0 +1,371 @@
+{
+  "artifact_schema_version": "2",
+  "harness_version": "0.1.0",
+  "product": "MCP Failure Lab",
+  "generated_at": "<normalized>",
+  "suite": "example:http-header-mismatch",
+  "runs": [
+    {
+      "artifact_schema_version": "2",
+      "harness_version": "0.1.0",
+      "run_id": "<normalized>",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "target_id": "http.fixture.2026",
+      "protocol_profile": "mcp-2026-07-28",
+      "spec_version": "2026-07-28",
+      "transport": "streamable_http",
+      "seed": 0,
+      "started_at": "<normalized>",
+      "finished_at": "<normalized>",
+      "duration_ms": 0,
+      "status": "completed",
+      "classification": "PASS",
+      "dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "assertions": [
+        {
+          "assertion_id": "is_error",
+          "status": "pass",
+          "expected": "an error response",
+          "actual": "error",
+          "evidence_seq": [
+            4
+          ],
+          "normative_source": "MCP 2026-07-28 schema.json: HeaderMismatchError",
+          "confidence": "high",
+          "security_relevant": false
+        },
+        {
+          "assertion_id": "code_32020",
+          "status": "pass",
+          "expected": "error code -32020",
+          "actual": "-32020",
+          "evidence_seq": [
+            4
+          ],
+          "normative_source": "MCP 2026-07-28 schema.json: HeaderMismatchError.code",
+          "confidence": "high",
+          "security_relevant": false
+        },
+        {
+          "assertion_id": "id_preserved",
+          "status": "pass",
+          "expected": "id == 1",
+          "actual": "1",
+          "evidence_seq": [
+            4
+          ],
+          "normative_source": "JSON-RPC 2.0 \u00a75",
+          "confidence": "high",
+          "security_relevant": false
+        }
+      ],
+      "process": {
+        "exit_code": 0,
+        "signal": 0,
+        "killed_by_harness": true,
+        "stderr_bytes": 0,
+        "cleanup_ok": true
+      },
+      "execution_strategy": "interactive_session",
+      "resolved_target": {
+        "target_id": "http.fixture.2026",
+        "role": "fixture",
+        "implementation": "interop-lab HTTP fixture (2026-07-28)",
+        "language": "python",
+        "version": "0.1.0",
+        "launch_command": [
+          "${PYTHON}",
+          "fixtures/http_server.py"
+        ],
+        "env_allowlist": [],
+        "env": {
+          "INTEROP_FIXTURE_PROFILE": "2026-07-28"
+        },
+        "transport": "streamable_http",
+        "protocol_profile": "mcp-2026-07-28",
+        "timeout_s": 15.0,
+        "provenance": "local_fixture",
+        "execution_mode": "host",
+        "expected_tools": [
+          "echo"
+        ],
+        "tool_declaration_policy": "warn",
+        "relationship": "first_party",
+        "allow_declared_tool_fallback": false,
+        "safe_tool_invocation": {
+          "tool_name": "echo",
+          "arguments": {
+            "text": "interop-lab-safe-invocation"
+          },
+          "purpose": "Positive control for the tools/call path, on the same scenario the external targets run, so a failure there can be told apart from a broken harness.",
+          "expected_input_schema_sha256": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "side_effect_class": "none",
+          "expected_result_shape": "A CallToolResult whose `content` is an array containing the echoed text.",
+          "limitations": [
+            "A fixture written in this repository. It establishes that the harness's invocation path works, never that any third-party server is correct."
+          ]
+        },
+        "notes": "Conforming local Streamable HTTP fixture. Binds 127.0.0.1 only."
+      },
+      "faults_applied": [],
+      "trace_path": "<normalized>",
+      "runtime": null,
+      "containment": {
+        "mode": "host",
+        "provenance": "local_fixture",
+        "outcome": "not_contained_by_design",
+        "weaknesses": [],
+        "stated_limits": [
+          "This target ran as an ordinary local process. Nothing isolated it beyond process-group cleanup and a scrubbed environment."
+        ]
+      },
+      "resolved_capabilities": {
+        "target_id": "http.fixture.2026",
+        "target_fingerprint": "77db5cba79e9d4b1",
+        "resolution_identity": "registry-or-host",
+        "protocol_profile_offered": "2026-07-28",
+        "server_capabilities": {},
+        "tools": [
+          {
+            "name": "echo",
+            "input_schema_sha256": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+          }
+        ],
+        "advertises_resources": false,
+        "advertises_prompts": false,
+        "advertises_logging": false,
+        "advertises_completions": false,
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        },
+        "observed_transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        },
+        "discovered_at": "<normalized>",
+        "discovery_run_id": "internal.capability_discovery__http.fixture.2026",
+        "source_trace_uri": "capabilities/http.fixture.2026.trace.jsonl",
+        "status": "resolved",
+        "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+        "limitations": [
+          "Advertised is not implemented: a tool appearing in tools/list may still fail or be unimplemented when called.",
+          "One point in time. A server whose tool surface changes at runtime is described here only as it was at discovery.",
+          "Capabilities advertised in initialize are the server's own claim, recorded rather than verified.",
+          "Established by a single handshake. A server whose behaviour varies between connections is described here only as it was on that one.",
+          "Absence of a feature means it was not observed, never that the server cannot do it.",
+          "Long-lived SSE consumption, Last-Event-ID resumption and server-initiated requests over a retained stream are not implemented by this harness and are therefore neither observed nor claimed."
+        ],
+        "declared_tools": [
+          "echo"
+        ]
+      },
+      "environment_warnings": []
+    },
+    {
+      "artifact_schema_version": "2",
+      "harness_version": "0.1.0",
+      "run_id": "<normalized>",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "protocol_profile": "mcp-2026-07-28",
+      "spec_version": "2026-07-28",
+      "transport": "streamable_http",
+      "seed": 0,
+      "started_at": "<normalized>",
+      "finished_at": "<normalized>",
+      "duration_ms": 0,
+      "status": "completed",
+      "classification": "SPEC_VIOLATION",
+      "dimensions": {
+        "normative": true,
+        "security_relevant": true,
+        "security_category": "header_body_authorization_split",
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "unconfirmed",
+        "security_limitations": [
+          "Asserted against local fixtures only. No third-party implementation is named or evaluated by this scenario.",
+          "That a server accepts a disagreeing header is established here. That an intermediary in front of it would authorize on the header is an assumption about a deployment this harness does not measure."
+        ]
+      },
+      "assertions": [
+        {
+          "assertion_id": "is_error",
+          "status": "fail",
+          "expected": "an error response",
+          "actual": "result response",
+          "evidence_seq": [
+            4
+          ],
+          "normative_source": "MCP 2026-07-28 schema.json: HeaderMismatchError",
+          "confidence": "high",
+          "classification": "SPEC_VIOLATION",
+          "security_relevant": false
+        },
+        {
+          "assertion_id": "code_32020",
+          "status": "fail",
+          "expected": "error code -32020",
+          "actual": "error code None",
+          "evidence_seq": [
+            4
+          ],
+          "normative_source": "MCP 2026-07-28 schema.json: HeaderMismatchError.code",
+          "confidence": "high",
+          "classification": "SPEC_VIOLATION",
+          "security_relevant": false
+        },
+        {
+          "assertion_id": "id_preserved",
+          "status": "pass",
+          "expected": "id == 1",
+          "actual": "1",
+          "evidence_seq": [
+            4
+          ],
+          "normative_source": "JSON-RPC 2.0 \u00a75",
+          "confidence": "high",
+          "security_relevant": false
+        }
+      ],
+      "process": {
+        "exit_code": 0,
+        "signal": 0,
+        "killed_by_harness": true,
+        "stderr_bytes": 0,
+        "cleanup_ok": true
+      },
+      "execution_strategy": "interactive_session",
+      "resolved_target": {
+        "target_id": "http.fixture.faulty_header_mismatch",
+        "role": "fixture",
+        "implementation": "interop-lab HTTP fixture (defect: ignore_header_body_mismatch)",
+        "language": "python",
+        "version": "0.1.0",
+        "launch_command": [
+          "${PYTHON}",
+          "fixtures/http_server.py"
+        ],
+        "env_allowlist": [],
+        "env": {
+          "INTEROP_FIXTURE_PROFILE": "2026-07-28",
+          "INTEROP_FIXTURE_DEFECTS": "ignore_header_body_mismatch"
+        },
+        "transport": "streamable_http",
+        "protocol_profile": "mcp-2026-07-28",
+        "timeout_s": 15.0,
+        "provenance": "local_fixture",
+        "execution_mode": "host",
+        "expected_tools": [
+          "echo"
+        ],
+        "tool_declaration_policy": "warn",
+        "relationship": "first_party",
+        "allow_declared_tool_fallback": false,
+        "safe_tool_invocation": {
+          "tool_name": "echo",
+          "arguments": {
+            "text": "interop-lab-safe-invocation"
+          },
+          "purpose": "Positive control for the tools/call path, on the same scenario the external targets run, so a failure there can be told apart from a broken harness.",
+          "expected_input_schema_sha256": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "side_effect_class": "none",
+          "expected_result_shape": "A CallToolResult whose `content` is an array containing the echoed text.",
+          "limitations": [
+            "A fixture written in this repository. It establishes that the harness's invocation path works, never that any third-party server is correct."
+          ]
+        },
+        "notes": "DELIBERATELY DEFECTIVE local fixture. Accepts a Mcp-Method header that disagrees with the body instead of rejecting it. Synthetic; never a third-party defect."
+      },
+      "faults_applied": [],
+      "trace_path": "<normalized>",
+      "runtime": null,
+      "containment": {
+        "mode": "host",
+        "provenance": "local_fixture",
+        "outcome": "not_contained_by_design",
+        "weaknesses": [],
+        "stated_limits": [
+          "This target ran as an ordinary local process. Nothing isolated it beyond process-group cleanup and a scrubbed environment."
+        ]
+      },
+      "resolved_capabilities": {
+        "target_id": "http.fixture.faulty_header_mismatch",
+        "target_fingerprint": "4ad711c2680534f7",
+        "resolution_identity": "registry-or-host",
+        "protocol_profile_offered": "2026-07-28",
+        "server_capabilities": {},
+        "tools": [
+          {
+            "name": "echo",
+            "input_schema_sha256": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+          }
+        ],
+        "advertises_resources": false,
+        "advertises_prompts": false,
+        "advertises_logging": false,
+        "advertises_completions": false,
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        },
+        "observed_transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        },
+        "discovered_at": "<normalized>",
+        "discovery_run_id": "internal.capability_discovery__http.fixture.faulty_header_mismatch",
+        "source_trace_uri": "capabilities/http.fixture.faulty_header_mismatch.trace.jsonl",
+        "status": "resolved",
+        "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+        "limitations": [
+          "Advertised is not implemented: a tool appearing in tools/list may still fail or be unimplemented when called.",
+          "One point in time. A server whose tool surface changes at runtime is described here only as it was at discovery.",
+          "Capabilities advertised in initialize are the server's own claim, recorded rather than verified.",
+          "Established by a single handshake. A server whose behaviour varies between connections is described here only as it was on that one.",
+          "Absence of a feature means it was not observed, never that the server cannot do it.",
+          "Long-lived SSE consumption, Last-Event-ID resumption and server-initiated requests over a retained stream are not implemented by this harness and are therefore neither observed nor claimed."
+        ],
+        "declared_tools": [
+          "echo"
+        ]
+      },
+      "environment_warnings": []
+    }
+  ],
+  "differentials": [
+    {
+      "artifact_schema_version": "2",
+      "scenario_id": "version.http_header_body_mismatch",
+      "left_target": "http.fixture.2026",
+      "right_target": "http.fixture.faulty_header_mismatch",
+      "left_classification": "PASS",
+      "right_classification": "SPEC_VIOLATION",
+      "verdict": "normative_divergence",
+      "first_raw_difference_seq": 1,
+      "first_normalized_difference_seq": 1,
+      "differences": [
+        {
+          "seq": 1,
+          "field_path": "<envelope>",
+          "left": "error",
+          "right": "result",
+          "meaningful": true,
+          "explanation": "one implementation answered with a error and the other with a result"
+        }
+      ],
+      "normative_interpretation": "http.fixture.2026 was classified PASS while http.fixture.faulty_header_mismatch was classified SPEC_VIOLATION on the same scenario.",
+      "limitations": "Equivalence is asserted only over the scenario's steps, this transport, and these pinned versions. It is not a general compatibility claim."
+    }
+  ]
+}

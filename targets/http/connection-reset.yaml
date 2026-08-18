@@ -1,0 +1,24 @@
+target_id: http.fixture.connection_reset
+role: fixture
+implementation: "interop-lab HTTP fixture (defect: reset_connection)"
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/http_server.py"]
+env:
+  INTEROP_FIXTURE_PROFILE: "2026-07-28"
+  INTEROP_FIXTURE_DEFECTS: reset_connection
+transport: streamable_http
+protocol_profile: mcp-2026-07-28
+timeout_s: 15.0
+expected_tools: [echo]
+
+# This fixture aborts every POST without responding, including `initialize`, so
+# capability discovery can never succeed against it — by construction, not by
+# accident. It exists to prove the harness detects a reset, and blocking that on
+# a handshake it deliberately refuses would delete the coverage it provides.
+#
+# Permitted here only because this is a local fixture whose defect this
+# repository wrote. The model refuses this flag outright on any external target.
+allow_declared_tool_fallback: true
+notes: >-
+  DELIBERATELY DEFECTIVE local fixture. Resets the connection without responding. Synthetic.

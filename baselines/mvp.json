@@ -1,0 +1,1078 @@
+{
+  "artifact_schema_version": "2",
+  "baseline_schema_version": "4",
+  "harness_version": "0.1.0",
+  "baseline_id": "mvp",
+  "created_at": "2026-08-15T02:09:05.559421+00:00",
+  "created_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+  "created_by": "291026418+TimelessVisions@users.noreply.github.com",
+  "target_fingerprint_version": 3,
+  "protocol_profiles": [
+    "mcp-2026-07-28"
+  ],
+  "suite": "mvp",
+  "suite_fingerprint": "112ef880466f7902",
+  "target_fingerprints": {
+    "fixture.reference": "5eca7954b1dd40aa",
+    "fixture.faulty_result_type": "cc32404407b317b5",
+    "http.fixture.2026": "77db5cba79e9d4b1",
+    "http.fixture.faulty_header_mismatch": "4ad711c2680534f7"
+  },
+  "policy": {
+    "fail_on_new_normative_failure": true,
+    "fail_on_crash": true,
+    "fail_on_hang": true,
+    "fail_on_harness_error": true,
+    "fail_on_cleanup_failure": true,
+    "fail_on_missing_target": true,
+    "fail_on_missing_scenario": true,
+    "fail_on_target_fingerprint_drift": true,
+    "fail_on_scenario_fingerprint_drift": true,
+    "fail_on_reproduction_instability": true,
+    "new_behavioral_divergence": "warn",
+    "runtime_version_drift": "warn",
+    "capability_drift": "fail",
+    "unknown_result": "fail",
+    "fail_on_conformance_outcome_change": true,
+    "fail_on_new_security_relevant_result": true,
+    "inconclusive_result": "fail"
+  },
+  "entries": [
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "baseline.tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5d9a8f1bce606661",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.tools_list__fixture.reference__e75a3939/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "baseline.tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5d9a8f1bce606661",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.tools_list__fixture.faulty_result_type__76693921/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "baseline.tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5d9a8f1bce606661",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": false,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "baseline.tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "5d9a8f1bce606661",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": false,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "baseline.tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "d0840c4ca0c4998b",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.tool_call__fixture.reference__7627b14c/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "baseline.tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "d0840c4ca0c4998b",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.tool_call__fixture.faulty_result_type__a3016ffb/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "baseline.tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "d0840c4ca0c4998b",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "baseline.tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "d0840c4ca0c4998b",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "baseline.safe_tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "c077c29f139df6d9",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.safe_tool_call__fixture.reference__fba1ee38/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "baseline.safe_tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "c077c29f139df6d9",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.safe_tool_call__fixture.faulty_result_type__20d9b86f/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "baseline.safe_tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "c077c29f139df6d9",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.safe_tool_call__http.fixture.2026__d05ed273/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "baseline.safe_tool_call",
+      "scenario_version": "1",
+      "scenario_fingerprint": "c077c29f139df6d9",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.safe_tool_call__http.fixture.faulty_header_mismatch__1db07494/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "version.result_type_required",
+      "scenario_version": "1",
+      "scenario_fingerprint": "a0f9eeea0f80ff48",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/version.result_type_required__fixture.reference__bd32f71a/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "version.result_type_required",
+      "scenario_version": "1",
+      "scenario_fingerprint": "a0f9eeea0f80ff48",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "SPEC_VIOLATION",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [
+        "result_type_present"
+      ],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/version.result_type_required__fixture.faulty_result_type__208a882c/wire.jsonl",
+      "approval_reason": "Deliberate synthetic fixture (INTEROP_FIXTURE_DEFECTS=omit_result_type) proving the harness detects a missing CallToolResult.resultType. Written in this repository; not a third-party defect and never reported as one.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "version.result_type_required",
+      "scenario_version": "1",
+      "scenario_fingerprint": "a0f9eeea0f80ff48",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "version.result_type_required",
+      "scenario_version": "1",
+      "scenario_fingerprint": "a0f9eeea0f80ff48",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": false,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": false,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.http_tools_list__http.fixture.2026__2cc6aed7/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "baseline.http_tools_list",
+      "scenario_version": "1",
+      "scenario_fingerprint": "38b7e2b06f547f91",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/baseline.http_tools_list__http.fixture.faulty_header_mismatch__ea448c6b/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": null,
+      "approved_capability_surface": null,
+      "capability_required": true,
+      "applicable": false,
+      "allowed_classification": "NOT_APPLICABLE",
+      "allowed_dimensions": {
+        "normative": false,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "info",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": null,
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/version.http_header_body_mismatch__http.fixture.2026__187b2075/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "version.http_header_body_mismatch",
+      "scenario_version": "1",
+      "scenario_fingerprint": "3b7b5303e32a2a64",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": true,
+      "applicable": true,
+      "allowed_classification": "SPEC_VIOLATION",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": true,
+        "security_category": "header_body_authorization_split",
+        "resilience_relevant": false,
+        "severity": "high",
+        "vulnerability_status": "unconfirmed",
+        "security_limitations": [
+          "Asserted against local fixtures only. No third-party implementation is named or evaluated by this scenario.",
+          "That a server accepts a disagreeing header is established here. That an intermediary in front of it would authorize on the header is an assumption about a deployment this harness does not measure."
+        ]
+      },
+      "expected_failed_assertions": [
+        "is_error",
+        "code_32020"
+      ],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/version.http_header_body_mismatch__http.fixture.faulty_header_mismatch__eeed5f0d/wire.jsonl",
+      "approval_reason": "Deliberate synthetic fixture (INTEROP_FIXTURE_DEFECTS=ignore_header_body_mismatch) proving the harness detects an Mcp-Method header disagreeing with the body. Written in this repository; not a third-party defect and never reported as one.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.reference",
+      "target_fingerprint": "5eca7954b1dd40aa",
+      "scenario_id": "wire.missing_method",
+      "scenario_version": "1",
+      "scenario_fingerprint": "741d15db5646dc1d",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.missing_method__fixture.reference__0cdb9b53/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "fixture.faulty_result_type",
+      "target_fingerprint": "cc32404407b317b5",
+      "scenario_id": "wire.missing_method",
+      "scenario_version": "1",
+      "scenario_fingerprint": "741d15db5646dc1d",
+      "capability_fingerprint": "fc43cae793b48a0620d71e649c81e69a1e1e4bd4b22d2e974db96dd179186ad3",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo",
+          "slow_echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9",
+          "slow_echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "stdio",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.missing_method__fixture.faulty_result_type__bcfd5a0b/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.2026",
+      "target_fingerprint": "77db5cba79e9d4b1",
+      "scenario_id": "wire.missing_method",
+      "scenario_version": "1",
+      "scenario_fingerprint": "741d15db5646dc1d",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.missing_method__http.fixture.2026__9d77a813/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    },
+    {
+      "target_id": "http.fixture.faulty_header_mismatch",
+      "target_fingerprint": "4ad711c2680534f7",
+      "scenario_id": "wire.missing_method",
+      "scenario_version": "1",
+      "scenario_fingerprint": "741d15db5646dc1d",
+      "capability_fingerprint": "806dad1755f26ac4679e04fa66de363448c758daecb26c1a126d0f00941cd96f",
+      "approved_capability_surface": {
+        "negotiated_profile": "",
+        "tool_names": [
+          "echo"
+        ],
+        "tool_schema_hashes": {
+          "echo": "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+        },
+        "tool_output_schema_hashes": {},
+        "server_capabilities": {},
+        "transport_features": {
+          "transport": "streamable_http",
+          "execution_strategy": "interactive_session"
+        }
+      },
+      "capability_required": false,
+      "applicable": true,
+      "allowed_classification": "PASS",
+      "allowed_dimensions": {
+        "normative": true,
+        "security_relevant": false,
+        "security_category": null,
+        "resilience_relevant": false,
+        "severity": "medium",
+        "vulnerability_status": "not_assessed",
+        "security_limitations": []
+      },
+      "expected_failed_assertions": [],
+      "approved_differential_verdict": null,
+      "official_conformance_outcome": null,
+      "evidence": "artifact://runs/wire.missing_method__http.fixture.faulty_header_mismatch__cacf176e/wire.jsonl",
+      "approval_reason": "Re-approved for baseline schema v4, which records each entry's approved result dimensions beside its classification and widens capability_required to cover approved safe invocations and observed transport features. A v3 document would have loaded cleanly and stated two things nobody approved: that every entry was measured as not security-relevant, and that a session-lifecycle or safe-invocation entry needed no observation of the target. Also re-measured because security.http_invalid_origin now classifies a failed Origin MUST as SPEC_VIOLATION and carries the security reading on its own dimension, rather than replacing the conformance outcome with a security label.",
+      "reproduction": null
+    }
+  ]
+}

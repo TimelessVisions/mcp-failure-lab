@@ -1,0 +1,43 @@
+# Files whose bytes are verified by digest must never be transformed on
+# checkout. Git's automatic line-ending conversion rewrites LF to CRLF on
+# Windows, which changes the file's SHA-256 and makes a pin that is correct on
+# Linux fail on Windows for a reason that has nothing to do with its contents.
+#
+# This is not hypothetical: the pinned OASIS SARIF schema failed exactly this
+# way on windows-latest while passing on ubuntu-latest.
+
+# Pinned schemas — SHA-256 verified before use in interop_lab.reporting.sarif.
+schemas/*.json    -text
+
+# Dependency lock files — hashed into research/dependency-inventory.json, and
+# fed to `pip install --no-deps` where an altered byte is an altered install.
+*.lock.txt        -text
+uv.lock           -text
+
+# npm lock files, at any depth. `targets/external/server-everything/` carries
+# one, and its SHA-256 is the `supply_chain.lock_sha256` the external matrix
+# verifies before it builds anything. The schema fix above was written as
+# `schemas/*.json`, which does not reach a nested path, so this lock was
+# rewritten on windows-latest and failed the same byte check the SARIF schema
+# once did. The glob is deliberately unanchored so a lockfile added under a new
+# target directory is covered the day it lands.
+**/package-lock.json    -text
+
+# Go module manifests, wherever a target commits them. `go.sum` is a list of
+# expected module hashes; a rewritten byte in it is a changed dependency claim.
+**/go.mod         -text
+**/go.sum         -text
+
+# Dockerfiles under targets/ — their SHA-256 is recorded as a build input in the
+# external evidence manifest, so a target built from CRLF bytes would report a
+# different build identity than the same target built on Linux.
+targets/**/Dockerfile   -text
+
+# Committed evidence. A reviewer diffing an artifact must see behaviour changes,
+# not line-ending noise, and traces carry content-derived raw_sha256 values.
+artifacts/**/*.jsonl    -text
+artifacts/**/*.json     -text
+
+# Shell wrappers inside reproduction packages must keep LF: a CRLF shebang line
+# makes a script fail with a confusing "bad interpreter" error.
+*.sh              text eol=lf

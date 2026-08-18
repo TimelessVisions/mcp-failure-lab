@@ -1,0 +1,318 @@
+name: Public CI
+
+# CI for the public distribution, written for the public repository's own
+# branches.
+#
+# This file lives in the private source repository but is authored to be
+# exported. It names no private branch, no private artifact, no finding, no
+# external target and no private benchmark. Its triggers are `main` and pull
+# requests against `main`, because that is the only branch a fresh public
+# repository has.
+#
+# It also runs nothing that needs private input: no external target image is
+# pulled, no comparative benchmark executes, and no third-party implementation
+# is tested. Those belong to the private development program and stay there.
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # One pinned resolver version. The harness records a dependency lock hash, so
+  # the resolver is part of what "reproducible" means here.
+  UV_VERSION: "0.8.17"
+  NODE_VERSION: "22"
+
+jobs:
+  verify:
+    name: Public verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a # v5.4.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Sync Python dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Lockfile installs only: a pinned version must never drift silently.
+      - name: Install locked viewer dependencies
+        run: npm ci --prefix viewer
+
+      - name: Install pinned TypeScript SDK target
+        run: npm ci --prefix targets/typescript
+
+      - name: Install pinned official conformance framework
+        run: npm ci --prefix tools/conformance
+
+      - name: Record observed versions
+        run: |
+          uv --version
+          uv run python -c "import platform; print('python:', platform.python_version())"
+          node --version
+          uv run mcp-failure-lab version
+
+      - name: Ruff lint
+        run: uv run ruff check --output-format=github .
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+      - name: Pyright
+        run: uv run pyright
+
+      # `-rs` so skip reasons are printed. Several skips here are load-bearing:
+      # the SARIF assertions this distribution cannot make without the withheld
+      # OASIS schema, and the export tests that need a `.git` directory. A skip
+      # nobody reads is how a suite quietly stops testing anything, so the next
+      # step holds every one of them to a stated structural reason.
+      - name: Public test suite
+        run: uv run pytest -rs --junitxml=public-junit.xml 2>&1 | tee pytest.log
+
+      - name: Every skip has an expected structural reason
+        run: |
+          python3 - <<'PY'
+          import sys
+
+          # Each entry is a reason a test may legitimately not run in a public
+          # tree, and why that is structural rather than a gap someone should
+          # have closed. A skip whose reason is not on this list fails the job:
+          # it means the public suite quietly stopped testing something.
+          EXPECTED = {
+              "the pinned OASIS SARIF schema is not part of this distribution":
+                  "the copied OASIS schema is deliberately not redistributed",
+              "no git repository here":
+                  "the export tests need a file list; an export has no .git",
+              "docker is not available on this host":
+                  "containment tests need a container runtime",
+              "docker is not on PATH":
+                  "containment tests need a container runtime",
+              "docker or the pinned base image is unavailable":
+                  "containment tests need a container runtime and a pinned image",
+              "no docker":
+                  "containment tests need a container runtime",
+              "is not present locally":
+                  "a pinned base image is not pulled in public CI",
+              "not running under INTEROP_STRICT_EXTERNAL":
+                  "strict external execution is a private-program mode",
+              "the pinned external target definitions are not present in this tree":
+                  "external target definitions are not part of this distribution",
+              "the private inventories the denylist is generated from are not in this tree":
+                  "private inventories are not part of this distribution",
+              "scenario restricted to transports":
+                  "a scenario that does not apply to this transport",
+              "the executable bit is POSIX-only":
+                  "a platform-specific assertion",
+              "symlink creation needs privilege on Windows":
+                  "a platform-specific assertion",
+          }
+
+          reasons = [
+              line.strip()
+              for line in open("pytest.log", encoding="utf-8", errors="replace")
+              if line.startswith("SKIPPED")
+          ]
+
+          unexpected = [
+              reason
+              for reason in reasons
+              if not any(token in reason for token in EXPECTED)
+          ]
+
+          print(f"{len(reasons)} distinct skip line(s) reported\n")
+          for reason in sorted(set(reasons)):
+              print("  " + reason)
+
+          if unexpected:
+              print("\nUNEXPECTED SKIP REASON(S) — the public suite stopped testing something:")
+              for reason in sorted(set(unexpected)):
+                  print("  " + reason)
+              sys.exit(1)
+
+          print("\nevery skip matched a stated structural reason")
+          PY
+
+      # The committed synthetic reproductions regenerate byte-for-byte. This is
+      # the check that the examples a reader can inspect without running
+      # anything still describe what the harness actually produces.
+      - name: Committed synthetic reproductions still regenerate exactly
+        run: uv run mcp-failure-lab examples regenerate --check
+
+      - name: Generate the synthetic benchmark execution
+        run: uv run mcp-failure-lab viewer fixture --out artifacts/viewer-fixture
+
+      - name: Export the synthetic public-safe dataset
+        run: >-
+          uv run mcp-failure-lab viewer export
+          --benchmark artifacts/viewer-fixture
+          --mode public-safe
+          --out viewer/public/data
+
+      - name: The synthetic dataset carries no private evidence
+        run: uv run mcp-failure-lab viewer scan viewer/public/data/dataset.json
+
+      # A local fixture, on the host, over loopback. No container image and no
+      # third-party implementation are involved.
+      - name: Run a public-safe example over a local fixture
+        run: >-
+          uv run mcp-failure-lab run
+          -t targets/fixtures/reference.yaml
+          --suite core
+          --json artifacts/reports/public-example.json
+
+      - name: Minimise a synthetic defect and replay it from its package alone
+        run: |
+          uv run mcp-failure-lab minimize \
+            -t targets/fixtures/faulty-result-type.yaml \
+            --scenario version.result_type_required \
+            --finding-id ILAB-0001
+          uv run mcp-failure-lab replay artifacts/repros/ILAB-0001/repro.yaml
+
+      # SARIF *generation* is schema-independent and runs here. Offline
+      # validation against the copied OASIS schema is not part of this
+      # distribution, so it is not attempted and its absence is not hidden.
+      - name: Generate JUnit and SARIF from the gate
+        run: >-
+          uv run mcp-failure-lab ci
+          --baseline baselines/mvp.json
+          --matrix targets/mvp-matrix.yaml
+          --suite suites/release_gate/mvp.yaml
+          --junit artifacts/gate/junit.xml
+          --sarif artifacts/gate/results.sarif
+
+      - name: The generated reports are well formed
+        run: |
+          python3 - <<'PY'
+          import json
+          import xml.etree.ElementTree as ElementTree
+
+          ElementTree.parse("artifacts/gate/junit.xml")
+          print("junit parses")
+
+          with open("artifacts/gate/results.sarif", encoding="utf-8") as handle:
+              sarif = json.load(handle)
+
+          assert sarif["version"] == "2.1.0", sarif["version"]
+          assert sarif["runs"], "a SARIF log with no runs proves nothing"
+          print("sarif", sarif["version"], "generated with", len(sarif["runs"]), "run(s)")
+          PY
+
+      # Every artifact this job wrote must be readable on another machine. An
+      # absolute path in a report is a reproduction that only works here.
+      - name: Artifacts carry no machine-specific paths
+        run: |
+          python3 - <<'PY'
+          import json
+          import sys
+          from pathlib import Path
+
+          sys.path.insert(0, "src")
+          from interop_lab.artifacts import portability
+
+          problems: list[str] = []
+          checked = 0
+          for report in sorted(Path("artifacts").rglob("*.json")):
+              try:
+                  payload = json.loads(report.read_text(encoding="utf-8"))
+              except (OSError, ValueError):
+                  continue
+              checked += 1
+              problems.extend(portability.validate_payload(payload, context=str(report)))
+
+          print(f"{checked} artifact(s) checked for portability")
+          if problems:
+              print("NOT PORTABLE:")
+              for problem in problems[:20]:
+                  print("  " + problem)
+              sys.exit(1)
+          print("no machine-specific path in any artifact")
+          PY
+
+      - name: Build the wheel
+        run: uv build --wheel --out-dir dist
+
+      # Installed into a clean interpreter, and exercised from a directory that
+      # is not the checkout, so this fails if the package only works when run
+      # from a source tree.
+      - name: Install the wheel into a clean environment
+        run: |
+          python3 -m venv "${RUNNER_TEMP}/clean-venv"
+          "${RUNNER_TEMP}/clean-venv/bin/pip" install --quiet dist/*.whl
+          cd "${RUNNER_TEMP}"
+          "${RUNNER_TEMP}/clean-venv/bin/mcp-failure-lab" version
+          "${RUNNER_TEMP}/clean-venv/bin/mcp-failure-lab" list-profiles
+          "${RUNNER_TEMP}/clean-venv/bin/mcp-failure-lab" list-scenarios
+
+      # The public tree must not acquire a secret or a private term. This is the
+      # same boundary the release gate enforces over the sanitized export,
+      # asserted here so a pull request fails before merge rather than at
+      # release time.
+      #
+      # Files whose job is to detect or redact these shapes contain them
+      # legitimately and are excluded by path. A scanner that cannot tell a
+      # detector from a leak is one people switch off.
+      - name: No secret or private term in the tree
+        run: |
+          set -uo pipefail
+          status=0
+          detectors='src/interop_lab/export/manifest\.py|src/interop_lab/viewer/redaction\.py|src/interop_lab/security/redaction\.py|src/interop_lab/artifacts/portability\.py|tests/unit/test_export\.py|tests/unit/test_security\.py|tests/unit/test_cli_adoption\.py|tests/unit/test_portability_and_runtime\.py|tests/unit/test_public_workflows\.py|tools/export_gate\.sh|\.github/workflows/public-ci\.yml'
+          generated='/node_modules/|/\.venv/|/dist/|/\.git/|/__pycache__/|/\.pytest_cache/|/artifacts/|/viewer/public/data/|uv\.lock|package-lock\.json'
+          scan() {
+            local label="$1" pattern="$2" hits
+            hits="$(grep -rIlE "$pattern" . 2>/dev/null \
+              | grep -vE "$generated" | grep -vE "$detectors" || true)"
+            if [ -n "$hits" ]; then
+              echo "FAILED  $label"
+              echo "$hits" | head -5
+              status=1
+            else
+              echo "ok      $label"
+            fi
+          }
+          scan "no private key" '^-----BEGIN [A-Z ]*PRIVATE KEY-----'
+          scan "no AWS access key id" '\bAKIA[0-9A-Z]{16}\b'
+          scan "no GitHub token" '\bgh[pousr]_[A-Za-z0-9]{20,}'
+          scan "no private finding identifier" 'ILAB-EXT-[0-9]+'
+          scan "no workflow run identifier" 'actions/runs/[0-9]+'
+          if find . -name '*.env' -not -path './node_modules/*' | grep -q .; then
+            echo "FAILED  an environment file is in the tree"
+            status=1
+          else
+            echo "ok      no environment file"
+          fi
+          exit "$status"
+
+      - name: Upload the public test report
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        with:
+          name: public-ci-test-report
+          path: public-junit.xml
+          retention-days: 7
+          if-no-files-found: warn

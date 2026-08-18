@@ -1,0 +1,69 @@
+target_id: http.fixture.2025.contained
+role: fixture
+implementation: "interop-lab HTTP fixture (2025-11-25, session-issuing), contained"
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/http_server.py"]
+env:
+  INTEROP_FIXTURE_PROFILE: "2025-11-25"
+  INTEROP_FIXTURE_PORT: "8000"
+  # 2025-11-25 says a server MAY issue a session id and that a client which
+  # received one MUST send it back. Switched on here so the contained path's
+  # setup-state capture is actually load-bearing: without it every scenario
+  # request is rejected, so a PASS proves the capture and substitution worked.
+  INTEROP_FIXTURE_SESSIONS: "1"
+  # Safe only because the container is on an --internal network and publishes
+  # no port. The probe sidecar is the sole client that can reach it.
+  INTEROP_FIXTURE_BIND: "0.0.0.0"
+
+transport: streamable_http
+protocol_profile: mcp-2025-11-25
+timeout_s: 30.0
+expected_tools: [echo]
+
+# One reviewed call this target may be asked to perform. Written here, in the
+# target file, rather than as a constant inside the tools/call scenario: the
+# argument name is `text` for this fixture and `message` for two of the three
+# external servers, so a scenario carrying either one would be applicable to
+# some targets and silently skipped against the rest.
+safe_tool_invocation:
+  tool_name: echo
+  arguments:
+    text: "interop-lab-safe-invocation"
+  purpose: >-
+    Positive control for the tools/call path, on the same scenario the external
+    targets run, so a failure there can be told apart from a broken harness.
+  expected_input_schema_sha256: "e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9"
+  side_effect_class: none
+  expected_result_shape: >-
+    A CallToolResult whose `content` is an array containing the echoed text.
+  limitations:
+    - >-
+      A fixture written in this repository. It establishes that the harness's
+      invocation path works, never that any third-party server is correct.
+
+provenance: local_fixture
+execution_mode: container
+container:
+  image_source:
+    # Pulled from a registry, so the repository digest is the identity and
+    # nothing has to be built. The tag is informational; the digest resolves.
+    kind: registry
+    repository: "mirror.gcr.io/library/python"
+    repository_digest: "sha256:229a2c5bfa27522db7815ea81f9bed70af17ccb9de9fc7ad142b1877b5830d36"
+    display_tag: "3.12-slim"
+  network: isolated_sidecar
+  container_port: 8000
+  memory_mb: 256
+  cpus: 0.5
+  pids_limit: 64
+  read_only_root: true
+  user: "65534:65534"
+  repo_mounts: ["fixtures"]
+  startup_timeout_s: 60.0
+
+notes: >-
+  The stateful 2025-11-25 fixture under sidecar containment. Exists to prove the
+  contained path performs a real stateful handshake: it captures the session id
+  from the initialize response, replays it on scenario traffic, and releases it
+  on cleanup — without the probe knowing what a session id is.

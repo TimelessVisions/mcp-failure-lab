@@ -1,0 +1,113 @@
+artifact_schema_version: '2'
+finding_id: EX-HTTP-HEADER-MISMATCH-MINIMIZED
+harness_version: 0.1.0
+expected_classification: SPEC_VIOLATION
+seed: 0
+scenario:
+  definition:
+    scenario_id: version.http_header_body_mismatch_noisy
+    version: '1'
+    title: Header/body mismatch surrounded by reducible noise
+    category: version_header
+    nature: security_relevant
+    purpose: Demonstrate that automatic reduction works over HTTP when reducible material exists, without
+      overstating the already-minimal variant.
+    applicability:
+      min_spec_version: '2026-07-28'
+      profiles:
+      - mcp-2026-07-28
+      transports:
+      - streamable_http
+      roles:
+      - server
+      - fixture
+      requires_tools:
+      - echo
+      requires_transport_features: {}
+      requires_safe_tool_invocation: false
+    severity: high
+    expected_outcome: HTTP 400 with JSON-RPC error code -32020. The minimiser should strip the preceding
+      steps, the unused body fields and the reducible header, while preserving the Mcp-Method mismatch
+      that causes the failure.
+    normative_source: "MCP 2026-07-28 schema.json: HeaderMismatchError, code = -32020 \u2014 'For HTTP,\
+      \ the response status code MUST be 400 Bad Request.'"
+    security_category: header_body_authorization_split
+    security_limitations:
+    - The same defect as the minimal variant, wrapped in reducible noise. It exists to exercise minimisation
+      and establishes nothing further about any implementation.
+  steps:
+  - step_id: mismatch
+    kind: request
+    method: tools/list
+    params: {}
+    optional: false
+    assertions:
+    - assertion_id: is_error
+      kind: response_is_error
+      expected_codes: []
+      expected_statuses: []
+      normative_source: 'MCP 2026-07-28 schema.json: HeaderMismatchError'
+      on_fail: SPEC_VIOLATION
+      description: a header/body disagreement is rejected
+      security_relevant: false
+      security_limitations: []
+    - assertion_id: code_32020
+      kind: error_code_equals
+      expected: -32020
+      expected_codes: []
+      expected_statuses: []
+      normative_source: 'MCP 2026-07-28 schema.json: HeaderMismatchError.code'
+      on_fail: SPEC_VIOLATION
+      description: error code is -32020
+      security_relevant: false
+      security_limitations: []
+    timeout_is_expected: false
+    use_safe_tool_invocation: false
+    http_header_overrides:
+      Mcp-Method: tools/call
+    http_header_removals: []
+    http_method: GET
+    http_abort_after_headers: false
+    http_send_session_id: true
+    reducible_headers:
+    - X-Interop-Lab-Note
+  faults: []
+  timeout_s: 10.0
+  suppress_profile_handshake: false
+target:
+  target_id: http.fixture.faulty_header_mismatch
+  role: fixture
+  implementation: 'interop-lab HTTP fixture (defect: ignore_header_body_mismatch)'
+  language: python
+  version: 0.1.0
+  launch_command:
+  - ${PYTHON}
+  - fixtures/http_server.py
+  env_allowlist: []
+  env:
+    INTEROP_FIXTURE_PROFILE: '2026-07-28'
+    INTEROP_FIXTURE_DEFECTS: ignore_header_body_mismatch
+  transport: streamable_http
+  protocol_profile: mcp-2026-07-28
+  timeout_s: 15.0
+  provenance: local_fixture
+  execution_mode: host
+  expected_tools:
+  - echo
+  tool_declaration_policy: warn
+  relationship: first_party
+  allow_declared_tool_fallback: false
+  safe_tool_invocation:
+    tool_name: echo
+    arguments:
+      text: interop-lab-safe-invocation
+    purpose: Positive control for the tools/call path, on the same scenario the external targets run,
+      so a failure there can be told apart from a broken harness.
+    expected_input_schema_sha256: e3dce8d1afb8d03604af3bc6729219a5cd7df05558807b6e44e391d56fdf75d9
+    side_effect_class: none
+    expected_result_shape: A CallToolResult whose `content` is an array containing the echoed text.
+    limitations:
+    - A fixture written in this repository. It establishes that the harness's invocation path works, never
+      that any third-party server is correct.
+  notes: DELIBERATELY DEFECTIVE local fixture. Accepts a Mcp-Method header that disagrees with the body
+    instead of rejecting it. Synthetic; never a third-party defect.

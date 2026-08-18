@@ -1,0 +1,205 @@
+name: Public Viewer
+
+# The evidence viewer, built and tested from synthetic evidence only.
+#
+# Written for the public repository. It generates its own dataset with
+# `viewer fixture`, which invents implementations that do not exist, so nothing
+# this job touches describes anyone's software. No private dataset is downloaded,
+# no private artifact is named, and nothing is deployed — the build is uploaded
+# with short retention so a reviewer can open it, and that is all.
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "viewer/**"
+      - "src/interop_lab/viewer/**"
+      - "src/interop_lab/export/**"
+      - "demos/public-safe/**"
+      - "demos/verify.mjs"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/public-viewer.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "viewer/**"
+      - "src/interop_lab/viewer/**"
+      - "src/interop_lab/export/**"
+      - "demos/public-safe/**"
+      - "demos/verify.mjs"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/public-viewer.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-viewer-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_VERSION: "0.8.17"
+  NODE_VERSION: "22"
+
+jobs:
+  public-safe:
+    name: Public-safe — synthetic evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a # v5.4.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Sync Python dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install locked frontend dependencies
+        working-directory: viewer
+        run: npm ci
+
+      - name: The viewer schema still matches the models
+        run: uv run mcp-failure-lab viewer schema --check
+
+      - name: The compiled validator still matches the schema
+        working-directory: viewer
+        run: npm run schema:check
+
+      - name: TypeScript
+        working-directory: viewer
+        run: npm run typecheck
+
+      - name: ESLint
+        working-directory: viewer
+        run: npm run lint
+
+      - name: Prettier
+        working-directory: viewer
+        run: npm run format:check
+
+      # Invented implementations, invented measurements. This is the only
+      # evidence any build in this workflow ever sees.
+      - name: Generate the synthetic public-safe dataset
+        run: |
+          uv run mcp-failure-lab viewer fixture --out artifacts/viewer-fixture
+          uv run mcp-failure-lab viewer export \
+            --benchmark artifacts/viewer-fixture \
+            --mode public-safe \
+            --out viewer/public/data
+
+      # The same synthetic fixture, exported through the private code path, so
+      # guided mode is exercised without private subject matter.
+      - name: Export the synthetic dataset in private mode for guided tests
+        run: >-
+          uv run mcp-failure-lab viewer export
+          --benchmark artifacts/viewer-fixture
+          --mode private
+          --out artifacts/viewer-data-private
+
+      - name: Vitest
+        working-directory: viewer
+        run: npm run test
+
+      - name: Build
+        working-directory: viewer
+        run: npm run build
+
+      - name: Privacy scan — the dataset
+        run: uv run mcp-failure-lab viewer scan viewer/public/data/dataset.json
+
+      - name: Privacy scan — the built bundle
+        run: uv run mcp-failure-lab viewer scan viewer/dist
+
+      - name: The dataset is public-safe, and says so
+        run: uv run mcp-failure-lab viewer audit viewer/public/data/dataset.json
+
+      - name: Install Playwright browsers
+        working-directory: viewer
+        run: npx playwright install --with-deps chromium
+
+      # Desktop and mobile are separate projects rather than one run: a layout
+      # that only holds at one viewport is the defect these catch.
+      - name: Playwright — desktop
+        working-directory: viewer
+        run: npm run e2e:desktop
+
+      - name: Playwright — mobile
+        working-directory: viewer
+        run: npm run e2e:mobile
+
+      # Accessibility and reduced motion are asserted inside the Playwright
+      # suite (axe-core, and a `prefers-reduced-motion` describe block). Running
+      # them again by name here proves they were collected rather than silently
+      # filtered out of the run above.
+      - name: Accessibility and reduced motion assertions ran
+        working-directory: viewer
+        run: |
+          npx playwright test --project=desktop --grep "accessib|reduced motion" --list \
+            | tee reduced-motion.list
+          grep -qiE "accessib|reduced motion" reduced-motion.list \
+            || { echo "no accessibility or reduced-motion test was collected"; exit 1; }
+          npx playwright test --project=desktop --grep "accessib|reduced motion"
+
+      # The Playwright suite already aborts every request that leaves the page's
+      # own origin. This serves the built bundle from a plain static file server
+      # with no build tooling in front of it, which is how it would actually be
+      # opened, and asserts the page still reaches its evidence.
+      - name: Offline check — plain static file server
+        working-directory: viewer
+        run: |
+          python3 -m http.server 8099 --directory dist &
+          server=$!
+          trap 'kill "$server"' EXIT
+          for attempt in $(seq 1 30); do
+            if curl -fsS "http://127.0.0.1:8099/index.html" >/dev/null; then break; fi
+            sleep 1
+          done
+          curl -fsS "http://127.0.0.1:8099/index.html" | grep -q '<div id="root">'
+          curl -fsS "http://127.0.0.1:8099/data/dataset.json" \
+            | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d["visibility_mode"]=="public-safe", d["visibility_mode"]; print("offline dataset reachable and public-safe")'
+
+      - name: Zero console errors
+        working-directory: viewer
+        run: |
+          grep -rq "watchConsole" e2e/ \
+            || { echo "the console-error assertion is not part of the suite"; exit 1; }
+          echo "console-error assertion ships with the suite and ran above"
+
+      # Only the synthetic public-safe output leaves this job. There is nothing
+      # private in it, and the retention is short anyway. Nothing here deploys:
+      # publication is a separate decision, taken by the owner, not by CI.
+      - name: Upload the public-safe synthetic build
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        with:
+          name: viewer-public-safe-synthetic
+          path: viewer/dist
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload the Playwright report on failure
+        if: failure()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        with:
+          name: public-viewer-playwright-report
+          path: viewer/playwright-report
+          retention-days: 7
+          if-no-files-found: ignore

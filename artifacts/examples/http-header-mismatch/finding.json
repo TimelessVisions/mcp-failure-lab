@@ -1,0 +1,24 @@
+{
+  "artifact_schema_version": "2",
+  "finding_id": "EX-HTTP-HEADER-MISMATCH",
+  "classification": "SPEC_VIOLATION",
+  "title": "Local fixture accepts an Mcp-Method header that disagrees with the body",
+  "target_id": "http.fixture.faulty_header_mismatch",
+  "target_version": "0.1.0",
+  "scenario_id": "version.http_header_body_mismatch",
+  "protocol_profile": "mcp-2026-07-28",
+  "severity": "high",
+  "fact": "A POST whose body method was `tools/list` was sent with header `Mcp-Method: tools/call`. The fixture answered HTTP 200 with a normal `tools/list` result instead of rejecting the request.",
+  "normative_basis": "MCP 2026-07-28 schema.json: HeaderMismatchError, code = -32020 \u2014 'Returned when a server rejects a request because the values in the HTTP headers do not match the corresponding values in the request body... For HTTP, the response status code MUST be 400 Bad Request.'",
+  "interpretation": "Under 2026-07-28 an intermediary may route and authorize on `Mcp-Method` without parsing the body. A server that executes the body method while a gateway authorized the header method lets authorization and execution disagree.",
+  "limitation": "THIS IS A DELIBERATELY DEFECTIVE LOCAL FIXTURE, not a third-party implementation. The defect is switched on by INTEROP_FIXTURE_DEFECTS=ignore_header_body_mismatch and exists solely to prove the harness detects this condition. This scenario is ALREADY MINIMAL: one step, one constitutive header, a two-byte body. No reduction is claimed for it.",
+  "reproduction": "uv run mcp-failure-lab replay artifacts/examples/http-header-mismatch/repro.yaml",
+  "first_divergent_seq": 1,
+  "evidence_paths": [
+    "artifact://examples/http-header-mismatch/wire.jsonl",
+    "artifact://examples/http-header-mismatch/normalized-wire.jsonl"
+  ],
+  "reproduction_status": "stable",
+  "minimization_status": "already_minimal",
+  "public_safety": "private"
+}

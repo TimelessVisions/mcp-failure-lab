@@ -1,0 +1,1219 @@
+{
+  "manifest_version": "1",
+  "generated_at": "2026-08-18T07:34:30.847098+00:00",
+  "harness_version": "0.1.0",
+  "summary": {
+    "manifest_version": "1",
+    "included": 295,
+    "excluded": 120,
+    "content_violations": 0,
+    "safe": true
+  },
+  "included": [
+    {
+      "path": ".gitattributes",
+      "reason": "Line-ending rules that digest pins depend on."
+    },
+    {
+      "path": ".github/workflows/public-ci.yml",
+      "reason": "Public CI, written for the public repository."
+    },
+    {
+      "path": ".github/workflows/public-release-gate.yml",
+      "reason": "Public release gate over the sanitized export."
+    },
+    {
+      "path": ".github/workflows/public-viewer.yml",
+      "reason": "Public viewer CI over synthetic evidence."
+    },
+    {
+      "path": ".gitignore",
+      "reason": "Ignore rules."
+    },
+    {
+      "path": "LICENSE",
+      "reason": "Apache-2.0 license text."
+    },
+    {
+      "path": "NOTICE",
+      "reason": "Apache-2.0 attribution notice."
+    },
+    {
+      "path": "README.md",
+      "reason": "Project overview, written for a public reader."
+    },
+    {
+      "path": "SECURITY.md",
+      "reason": "Security contact and reporting policy."
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES",
+      "reason": "What the distribution uses and what it does not redistribute."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/README.md",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/differential.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/finding.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/minimization.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/normalized-wire.jsonl",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/report.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/repro.yaml",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/run.ps1",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/run.sh",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch-minimized/wire.jsonl",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/README.md",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/differential.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/finding.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/minimization.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/normalized-wire.jsonl",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/report.json",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/repro.yaml",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/run.ps1",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/run.sh",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "artifacts/examples/http-header-mismatch/wire.jsonl",
+      "reason": "Curated synthetic example artifacts."
+    },
+    {
+      "path": "baselines/contained-http.json",
+      "reason": "Approved baselines over local fixtures only."
+    },
+    {
+      "path": "baselines/mvp.json",
+      "reason": "Approved baselines over local fixtures only."
+    },
+    {
+      "path": "benchmarks/README.md",
+      "reason": "Benchmark scope and the publication boundary."
+    },
+    {
+      "path": "benchmarks/run_benchmark.py",
+      "reason": "Benchmark methodology as code."
+    },
+    {
+      "path": "demos/README.md",
+      "reason": "How both demos are produced."
+    },
+    {
+      "path": "demos/capture.mjs",
+      "reason": "Deterministic capture harness."
+    },
+    {
+      "path": "demos/public-safe/captions.vtt",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/public-safe/recording/public-safe-reduced-motion-1920x1080.webm",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/public-safe/recording/public-safe-standard-1920x1080.webm",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/public-safe/runbook.md",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/public-safe/script.md",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/public-safe/storyboard.md",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/public-safe/timeline.json",
+      "reason": "The synthetic demo, its script and its recording."
+    },
+    {
+      "path": "demos/verify.mjs",
+      "reason": "Recording verification."
+    },
+    {
+      "path": "docs/adoption.md",
+      "reason": "Public documentation."
+    },
+    {
+      "path": "docs/ci-gate.md",
+      "reason": "Public documentation."
+    },
+    {
+      "path": "docs/conformance-cross-check.md",
+      "reason": "Public documentation."
+    },
+    {
+      "path": "docs/containment.md",
+      "reason": "Public documentation."
+    },
+    {
+      "path": "docs/protocol-profiles.md",
+      "reason": "Public documentation."
+    },
+    {
+      "path": "docs/responsible-disclosure.md",
+      "reason": "Public documentation."
+    },
+    {
+      "path": "fixtures/hostile_containment.py",
+      "reason": "Locally written fixtures, including deliberate defects."
+    },
+    {
+      "path": "fixtures/http_probe.py",
+      "reason": "Locally written fixtures, including deliberate defects."
+    },
+    {
+      "path": "fixtures/http_server.py",
+      "reason": "Locally written fixtures, including deliberate defects."
+    },
+    {
+      "path": "fixtures/reference_server.py",
+      "reason": "Locally written fixtures, including deliberate defects."
+    },
+    {
+      "path": "pyproject.toml",
+      "reason": "Build metadata."
+    },
+    {
+      "path": "src/interop_lab/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/artifacts/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/artifacts/examples.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/artifacts/portability.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/artifacts/runtime.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/assertions/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/assertions/checks.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/cli.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/containment_overhead.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/coverage.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/documents.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/model.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/operations.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/plan.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/reporting.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/reproducibility.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/runner.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/schema.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/benchmark/validation.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/capabilities/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/capabilities/argument_safety.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/capabilities/invocation.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/capabilities/model.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/capabilities/resolve.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/ci/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/ci/baseline.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/ci/gate.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/cli/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/cli/main.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/config/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/config/loader.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/config/matrix.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/conformance/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/conformance/adapter.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/conformance/models.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/conformance/parser.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/context.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/docker.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/imageref.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/imagesource.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/model.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/resolution.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/containment/sidecar.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/differential/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/differential/compare.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/events/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/events/model.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/export/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/export/checksums.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/export/manifest.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/external/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/external/build.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/external/identity.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/external/images.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/external/matrix.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/injection/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/injection/faults.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/integrity/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/integrity/inventory.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/minimizer/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/minimizer/reduce.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/models/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/models/core.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/models/dimensions.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/models/severity.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/naming.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/normalization/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/normalization/normalize.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/probe/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/probe/compile.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/probe/events.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/probe/plan.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/profiles/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/profiles/registry.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/replay/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/replay/repro.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/reporting/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/reporting/junit.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/reporting/render.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/reporting/sarif.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/results/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/results/derive.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/results/signature.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/runner/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/runner/contained_http.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/runner/executor.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/runner/images.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/runner/interactive.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/runner/strategy.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/scenarios/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/scenarios/http_library.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/scenarios/library.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/scenarios/model.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/security/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/security/redaction.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/base.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/client.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/http/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/http/session.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/stdio/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/transports/stdio/session.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/__init__.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/cli.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/export.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/fixture.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/model.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/redaction.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/schema.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "src/interop_lab/viewer/source.py",
+      "reason": "The harness itself."
+    },
+    {
+      "path": "suites/release_gate/contained-http-matrix.yaml",
+      "reason": "Suite definitions naming scenarios."
+    },
+    {
+      "path": "suites/release_gate/contained-http-regression-matrix.yaml",
+      "reason": "Suite definitions naming scenarios."
+    },
+    {
+      "path": "suites/release_gate/contained-http.yaml",
+      "reason": "Suite definitions naming scenarios."
+    },
+    {
+      "path": "suites/release_gate/mvp.yaml",
+      "reason": "Suite definitions naming scenarios."
+    },
+    {
+      "path": "suites/release_gate/regression-matrix.yaml",
+      "reason": "Suite definitions naming scenarios."
+    },
+    {
+      "path": "targets/fixtures/faulty-result-type.yaml",
+      "reason": "Local fixture target definitions."
+    },
+    {
+      "path": "targets/fixtures/faulty-wrong-id.yaml",
+      "reason": "Local fixture target definitions."
+    },
+    {
+      "path": "targets/fixtures/reference-contained.yaml",
+      "reason": "Local fixture target definitions."
+    },
+    {
+      "path": "targets/fixtures/reference.yaml",
+      "reason": "Local fixture target definitions."
+    },
+    {
+      "path": "targets/fixtures/slow.yaml",
+      "reason": "Local fixture target definitions."
+    },
+    {
+      "path": "targets/http/connection-reset-contained.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/connection-reset.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/faulty-header-mismatch-contained.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/faulty-header-mismatch.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/fixture-2025-contained.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/fixture-2025.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/fixture-2026-contained.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/fixture-2026.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/regressed-2026-contained.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/regressed-2026.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/slow-body-contained.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/http/slow-body.yaml",
+      "reason": "Local HTTP fixture target definitions."
+    },
+    {
+      "path": "targets/mvp-matrix.yaml",
+      "reason": "Local fixture matrix."
+    },
+    {
+      "path": "targets/python/sdk-server-2025.yaml",
+      "reason": "Pinned official SDK target definitions."
+    },
+    {
+      "path": "targets/python/sdk-server.yaml",
+      "reason": "Pinned official SDK target definitions."
+    },
+    {
+      "path": "targets/python/sdk_server.py",
+      "reason": "Pinned official SDK target definitions."
+    },
+    {
+      "path": "targets/typescript/package-lock.json",
+      "reason": "Pinned dependency manifest."
+    },
+    {
+      "path": "targets/typescript/package.json",
+      "reason": "Pinned dependency manifest."
+    },
+    {
+      "path": "targets/typescript/sdk-server.yaml",
+      "reason": "Pinned official SDK target definition."
+    },
+    {
+      "path": "targets/typescript/sdk_server.mjs",
+      "reason": "Pinned official SDK target harness."
+    },
+    {
+      "path": "tests/conftest.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/e2e/test_cli.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/integration/test_containment.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/integration/test_http_targets.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/integration/test_measured_operations.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/integration/test_probe_capabilities.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/integration/test_sidecar_containment.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/integration/test_stdio_targets.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/property/test_properties.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_benchmark_reproducibility.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_build_resolution.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_capability_applicability.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_capability_gate_binding.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_ci_gate.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_ci_gate_hardening.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_classification.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_cli_adoption.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_conformance_adapter.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_contained_http_strategy.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_containment_overhead_pairs.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_containment_rules.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_example_artifacts.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_export.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_export_checksums.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_faults_and_config.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_imageref.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_measurement_coverage.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_normalization.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_observed_dependency_binding.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_plan_compilation.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_portability_and_runtime.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_probe_events.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_probe_plan.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_probe_sse_framing.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_profiles_and_applicability.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_public_documentation.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_public_workflows.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_result_dimensions.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_result_signature.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_scenario_expansion.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_security.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_sidecar_pure.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_strategy_routing.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_viewer_audit.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_viewer_export.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tests/unit/test_viewer_privacy.py",
+      "reason": "The tests. A harness whose tests are hidden is not evidence."
+    },
+    {
+      "path": "tools/conformance/README.md",
+      "reason": "Pinned official conformance boundary."
+    },
+    {
+      "path": "tools/conformance/package-lock.json",
+      "reason": "Pinned official conformance boundary."
+    },
+    {
+      "path": "tools/conformance/package.json",
+      "reason": "Pinned official conformance boundary."
+    },
+    {
+      "path": "tools/export_gate.sh",
+      "reason": "Public release gate executed by public CI."
+    },
+    {
+      "path": "uv.lock",
+      "reason": "Pinned resolver output \u2014 reproducibility, no secrets."
+    },
+    {
+      "path": "viewer/.prettierignore",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/.prettierrc.json",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/README.md",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/e2e/guided-private.spec.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/e2e/guided.spec.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/e2e/helpers.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/e2e/layout.spec.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/e2e/viewer.spec.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/eslint.config.js",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/index.html",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/package-lock.json",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/package.json",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/playwright.config.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/scripts/compile-schema.mjs",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/app/App.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/app/routes.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/app/theme.css",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/components/primitives.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/data/dataset.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/data/selectors.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/data/types.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/data/validate-dataset.d.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/data/validate-dataset.js",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/data/viewer-dataset.schema.json",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/guided/GuidedMode.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/main.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Capabilities.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Categories.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Containment.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Methodology.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Overview.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Reproduction.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/ResultSignature.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/ScenarioDetail.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/TargetDetail.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/TargetMatrix.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/src/views/Timings.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/dataset.test.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/fixture.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/guided.test.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/privacy.test.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/render.test.tsx",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/routes.test.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/semantics.test.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tests/setup.ts",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/tsconfig.json",
+      "reason": "Viewer build configuration and manifests."
+    },
+    {
+      "path": "viewer/vite.config.ts",
+      "reason": "Viewer build configuration and manifests."
+    }
+  ],
+  "withheld_by_reason": {
+    "forbidden: Private branch trigger, private results directory and private artifact.": 1,
+    "forbidden: Triggers on the private development branch.": 2,
+    "forbidden: Private branch trigger and the pinned external target matrix.": 1,
+    "forbidden: Private branch trigger and the private viewer artifact wiring.": 1,
+    "not on the allowlist; add an explicit rule if it should be public": 29,
+    "forbidden: Findings against third-party code.": 58,
+    "forbidden: Comparative results about other software.": 1,
+    "forbidden: The private demo and everything describing it.": 4,
+    "forbidden: Internal commercial documents.": 5,
+    "forbidden: Names an undisclosed finding.": 1,
+    "forbidden: OASIS SARIF schema; redistribution terms unconfirmed.": 2,
+    "forbidden: Reads the external image manifest.": 4,
+    "forbidden: Reads the private benchmark definition.": 1,
+    "forbidden: Asserts on the private benchmark definition.": 1,
+    "forbidden: Asserts on a workflow that is not exported.": 2,
+    "forbidden: Asserts on external build contexts.": 1,
+    "forbidden: Asserts on the pinned external matrix.": 1,
+    "forbidden: Asserts on a workflow that is not exported; names the private branch.": 1,
+    "forbidden: Asserts on the external image manifest.": 1,
+    "forbidden: Asserts that private findings exist.": 1,
+    "forbidden: Asserts on pinned external target identities.": 1,
+    "forbidden: Asserts on the external matrix.": 1
+  },
+  "note": "Excluded paths are counted rather than listed. Naming what was withheld would publish the very identifiers the exclusion exists to protect."
+}

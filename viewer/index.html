@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!--
+      No external origin is reachable from this page. The viewer is served from a
+      static file server with the network disabled, and a stylesheet or font that
+      needed one would fail exactly where it matters.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; font-src 'self'; base-uri 'none'; form-action 'none'"
+    />
+    <!--
+      An inline favicon, because the browser requests /favicon.ico unprompted and
+      a 404 for it is a console error in a suite that treats console errors as
+      failures. Also: nothing may be fetched from an external origin.
+    -->
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2307080a'/%3E%3Cpath d='M2 11h3V5H2zm4.5 0h3V3h-3zM11 11h3V7h-3z' fill='%23d8b06a'/%3E%3C/svg%3E"
+    />
+    <meta name="robots" content="noindex, nofollow, noarchive" />
+    <title>Evidence — MCP Failure Lab</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>
+      This viewer renders benchmark evidence in the browser and needs JavaScript. The underlying
+      artifacts are JSON files on disk and can be read without it.
+    </noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

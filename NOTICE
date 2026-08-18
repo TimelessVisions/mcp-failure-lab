@@ -1,0 +1,31 @@
+MCP Failure Lab
+Copyright 2026 George Visions
+
+This product includes software developed by the MCP Failure Lab project.
+
+Licensed under the Apache License, Version 2.0 (the "License"); you may not
+use this file except in compliance with the License. You may obtain a copy of
+the License in the LICENSE file distributed with this work, or at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+License for the specific language governing permissions and limitations under
+the License.
+
+--------------------------------------------------------------------------
+
+Third-party material
+
+This distribution redistributes no third-party source code. Every dependency
+is resolved by the consumer from their own registry, under its own license.
+THIRD_PARTY_NOTICES records what those dependencies are and the terms they
+arrive under; none of them imposes a notice obligation on this distribution,
+because none of them is contained in it.
+
+"Model Context Protocol" and "MCP" are used here descriptively, to name the
+protocol this software tests. This project is not affiliated with, endorsed
+by, or a product of the maintainers of that specification or of any
+implementation it exercises.

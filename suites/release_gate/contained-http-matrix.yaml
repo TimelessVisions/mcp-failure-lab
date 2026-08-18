@@ -1,0 +1,15 @@
+# Contained Streamable HTTP gate matrix. Local synthetic fixtures only, each one
+# executed through the probe sidecar rather than by a host socket.
+#
+# Kept separate from the MVP matrix on purpose: this matrix needs Docker and the
+# pinned probe image, and folding it into the default gate would make the
+# ordinary gate unrunnable on a machine without a container runtime.
+matrix_id: contained_http
+description: >-
+  Conforming and deliberately faulty local HTTP fixtures under sidecar
+  containment, across both dated profiles. The faulty entry is expected to fail;
+  the baseline records that explicitly rather than hiding it.
+targets:
+  - targets/http/fixture-2026-contained.yaml
+  - targets/http/fixture-2025-contained.yaml
+  - targets/http/faulty-header-mismatch-contained.yaml

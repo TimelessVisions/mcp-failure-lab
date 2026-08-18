@@ -1,0 +1,15 @@
+target_id: http.fixture.slow_body
+role: fixture
+implementation: "interop-lab HTTP fixture (delayed body)"
+language: python
+version: "0.1.0"
+launch_command: ["${PYTHON}", "fixtures/http_server.py"]
+env:
+  INTEROP_FIXTURE_PROFILE: "2026-07-28"
+  INTEROP_FIXTURE_DELAY_MS: "6000"
+transport: streamable_http
+protocol_profile: mcp-2026-07-28
+timeout_s: 15.0
+expected_tools: [echo]
+notes: >-
+  Conforming, but stalls between response headers and body completion. Exercises body-completion timeout separately from header timeout.

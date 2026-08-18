@@ -1,0 +1,7 @@
+dist
+node_modules
+playwright-report
+test-results
+public/data
+src/data/viewer-dataset.schema.json
+src/data/validate-dataset.js

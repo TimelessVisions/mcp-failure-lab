@@ -1,0 +1,23 @@
+{
+  "artifact_schema_version": "2",
+  "scenario_id": "version.http_header_body_mismatch",
+  "left_target": "http.fixture.2026",
+  "right_target": "http.fixture.faulty_header_mismatch",
+  "left_classification": "PASS",
+  "right_classification": "SPEC_VIOLATION",
+  "verdict": "normative_divergence",
+  "first_raw_difference_seq": 1,
+  "first_normalized_difference_seq": 1,
+  "differences": [
+    {
+      "seq": 1,
+      "field_path": "<envelope>",
+      "left": "error",
+      "right": "result",
+      "meaningful": true,
+      "explanation": "one implementation answered with a error and the other with a result"
+    }
+  ],
+  "normative_interpretation": "http.fixture.2026 was classified PASS while http.fixture.faulty_header_mismatch was classified SPEC_VIOLATION on the same scenario.",
+  "limitations": "Equivalence is asserted only over the scenario's steps, this transport, and these pinned versions. It is not a general compatibility claim."
+}

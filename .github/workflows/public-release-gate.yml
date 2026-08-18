@@ -1,0 +1,228 @@
+name: Public Release Gate
+
+# Regenerates the sanitized public tree and tries to break it.
+#
+# What this is for, stated plainly: it decides whether the sanitized tree
+# *could* be published, never whether it is. Nothing here creates a repository,
+# pushes anything, publishes a package, or changes any visibility. Publication
+# is a separate decision by the owner.
+#
+# Written for the public repository, and exported with it. The gate is worth
+# running there because the export is reproducible from the public tree alone:
+# it exercises the allowlist, the manifest, the checksums and the public-safe
+# demo, none of which need private input.
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+    paths:
+      - "tools/export_gate.sh"
+      - "src/interop_lab/export/**"
+      - "src/interop_lab/viewer/**"
+      - "src/interop_lab/cli/main.py"
+      - "viewer/**"
+      - "demos/public-safe/**"
+      - "demos/verify.mjs"
+      - "tests/unit/test_export*"
+      - "tests/unit/test_public_workflows.py"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/public-release-gate.yml"
+  pull_request:
+    branches: ["main"]
+    paths:
+      - "tools/export_gate.sh"
+      - "src/interop_lab/export/**"
+      - "src/interop_lab/viewer/**"
+      - "viewer/**"
+      - "demos/public-safe/**"
+      - "tests/unit/test_export*"
+      - "tests/unit/test_public_workflows.py"
+      - "pyproject.toml"
+      - "uv.lock"
+      - ".github/workflows/public-release-gate.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: public-release-gate-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  UV_VERSION: "0.8.17"
+  NODE_VERSION: "22"
+
+jobs:
+  release-gate:
+    name: Sanitized release gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@887a942a15af3a7626099df99e897a18d9e5ab3a # v5.4.1
+        with:
+          version: ${{ env.UV_VERSION }}
+          enable-cache: true
+
+      - name: Sync Python dependencies
+        run: uv sync --all-extras --dev
+
+      - name: Set up Node
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install Playwright browsers
+        working-directory: viewer
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      # Two fresh directories, and they are not the same tree.
+      #
+      # The gate's destination gets a virtualenv, a node_modules and a built
+      # bundle installed into it, because that is how it proves the export
+      # stands up on its own. The *candidate* is a clean export with none of
+      # that: it is what would actually be pushed, and it is what gets hashed
+      # and uploaded. Hashing the gate's tree instead would report a number
+      # many times too large for the thing being released.
+      #
+      # Fresh every time. Reusing a directory would let a file from a previous
+      # run stand in for a file this export failed to write.
+      - name: Choose fresh destinations
+        run: |
+          {
+            echo "EXPORT_DIR=${RUNNER_TEMP}/release-candidate-${GITHUB_RUN_ID}"
+            echo "GATE_DIR=${RUNNER_TEMP}/export-gate-${GITHUB_RUN_ID}"
+          } >> "$GITHUB_ENV"
+
+      # The gate regenerates the export into its own destination and then runs
+      # every check against the materialised tree: installs, lints, types,
+      # tests, builds the viewer, plays the public-safe demo, and scans for
+      # anything private.
+      - name: Run the export gate
+        run: bash tools/export_gate.sh "$GATE_DIR"
+
+      - name: Generate the sanitized release candidate
+        run: uv run mcp-failure-lab export --out "$EXPORT_DIR" --force
+
+      # `export` writes the manifest. The checksums are a separate command by
+      # design — the hash has to be taken over what the manifest *says* the
+      # export contains, not over whatever the directory happens to hold.
+      - name: Write and verify the candidate's checksums
+        run: |
+          cd "$EXPORT_DIR"
+          uv run mcp-failure-lab export-checksums --root .
+          uv run mcp-failure-lab export-checksums --root . --check
+
+      - name: Verify EXPORT-MANIFEST.json
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          root = Path(os.environ["EXPORT_DIR"])
+          manifest_path = root / "EXPORT-MANIFEST.json"
+          if not manifest_path.is_file():
+              sys.exit("no EXPORT-MANIFEST.json in the export")
+
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+          included = [entry["path"] for entry in manifest["included"]]
+
+          assert included, "a manifest listing no files proves nothing"
+          for entry in manifest["included"]:
+              assert entry["reason"].strip(), f"{entry['path']} is included with no stated reason"
+              assert (root / entry["path"]).is_file(), f"{entry['path']} is listed but absent"
+
+          serialised = json.dumps(manifest)
+          for term in ("ILAB-EXT", "private-findings", "commercialization", "private-results"):
+              assert term not in serialised, f"the manifest names {term}"
+
+          assert manifest["summary"]["safe"] is True, manifest["summary"]
+          assert manifest["summary"]["content_violations"] == 0, manifest["summary"]
+          print(f"manifest lists {len(included)} file(s), each present, each with a reason")
+          PY
+
+      - name: Verify SHA256SUMS covers every manifest-listed file
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          import sys
+          from pathlib import Path
+
+          root = Path(os.environ["EXPORT_DIR"])
+          sums = root / "SHA256SUMS"
+          if not sums.is_file():
+              sys.exit("no SHA256SUMS in the release candidate")
+
+          hashed = {
+              line.split(maxsplit=1)[1].strip().lstrip("*")
+              for line in sums.read_text(encoding="utf-8").splitlines()
+              if line.strip()
+          }
+          manifest = json.loads((root / "EXPORT-MANIFEST.json").read_text(encoding="utf-8"))
+          listed = {entry["path"] for entry in manifest["included"]}
+
+          missing = listed - hashed
+          if missing:
+              sys.exit(f"manifest-listed file(s) absent from SHA256SUMS: {sorted(missing)[:10]}")
+
+          print(f"{len(hashed)} line(s) in SHA256SUMS cover all {len(listed)} manifest-listed file(s)")
+          PY
+
+      - name: Verify no .git directory
+        run: |
+          if [ -e "$EXPORT_DIR/.git" ]; then
+            echo ".git exists in the export; private history would travel with it"
+            exit 1
+          fi
+          echo "no .git — publishing means a new repository"
+
+      - name: Verify no private inventory
+        run: |
+          set -uo pipefail
+          status=0
+          for directory in artifacts/private-findings benchmarks/private-results docs/commercialization targets/external demos/private; do
+            if find "$EXPORT_DIR/$directory" -type f 2>/dev/null | grep -q .; then
+              echo "FAILED  $directory is in the export"
+              status=1
+            else
+              echo "ok      no $directory"
+            fi
+          done
+          exit "$status"
+
+      # Verified in the gate's tree, which has the browser dependencies the
+      # verifier needs installed. The candidate carries the same recordings —
+      # identical bytes, as the checksums above assert — but deliberately has
+      # no node_modules, so playing them there would mean installing into the
+      # thing being released.
+      - name: Verify the public-safe demo
+        run: |
+          cd "$GATE_DIR"
+          node demos/verify.mjs demos/public-safe
+
+      # The sanitized candidate only, with short retention. This is not a
+      # release: no tag is created, no package is published, and nothing is made
+      # public by this job.
+      - name: Upload the sanitized release candidate
+        if: always()
+        uses: actions/upload-artifact@6f51ac03b9356f520e9adb1b1b7802705f340c2b # v4.5.0
+        with:
+          name: sanitized-release-candidate
+          path: ${{ env.EXPORT_DIR }}
+          retention-days: 7
+          if-no-files-found: warn

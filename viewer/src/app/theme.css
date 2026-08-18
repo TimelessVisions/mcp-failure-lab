@@ -1,0 +1,1183 @@
+/*
+ * A forensic instrument, not a dashboard.
+ *
+ * The palette is near-monochrome on purpose. Colour is the scarcest signal on a
+ * screen this dense, and spending it on decoration leaves nothing to say "this
+ * cell is a normative failure" with. So: a graphite ground, one warm accent for
+ * focus and navigation, and four restrained result families that read as
+ * *categories* rather than as a good-to-bad scale — because they are not one.
+ *
+ * Evidence values are monospaced everywhere. A fingerprint set in a
+ * proportional face is a fingerprint nobody compares.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ground */
+  --ink-000: #07080a;
+  --ink-050: #0b0d10;
+  --ink-100: #101317;
+  --ink-150: #15181d;
+  --ink-200: #1b1f25;
+  --ink-300: #262b33;
+  --ink-400: #343a44;
+
+  /* type */
+  /*
+   * Every one of these clears 4.5:1 against the panel grounds below, measured
+   * rather than eyeballed. The first draft used #6f7885 and #545c68, which look
+   * right in a dark composition and fail WCAG AA at the small sizes this
+   * interface uses them for — which is most of the evidence on the page.
+   */
+  --text-primary: #e8eaee;
+  --text-secondary: #b6bdc8;
+  --text-tertiary: #9aa3b0;
+  --text-quiet: #868f9c;
+
+  /* the single accent: navigation, focus, the current thing */
+  --accent: #d8b06a;
+  --accent-dim: #8d7343;
+  --accent-wash: rgb(216 176 106 / 12%);
+
+  /* result families. Four categories, deliberately not a gradient. */
+  --state-pass: #6fae8a;
+  --state-normative: #d1685f;
+  --state-divergence: #7e9dc9;
+  --state-absent: #59616d;
+  --state-uncertain: #c2954a;
+
+  --state-pass-wash: rgb(111 174 138 / 14%);
+  --state-normative-wash: rgb(209 104 95 / 16%);
+  --state-divergence-wash: rgb(126 157 201 / 14%);
+  --state-absent-wash: rgb(89 97 109 / 14%);
+  --state-uncertain-wash: rgb(194 149 74 / 14%);
+
+  --rule: rgb(255 255 255 / 7%);
+  --rule-strong: rgb(255 255 255 / 13%);
+  --grid: rgb(255 255 255 / 3.5%);
+
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --step-0: 0.8125rem;
+  --step-1: 0.9375rem;
+  --step-2: 1.125rem;
+  --step-3: 1.5rem;
+  --step-4: 2rem;
+  --step-5: 2.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius: 3px;
+  --shell-width: 15rem;
+
+  --motion-fast: 120ms;
+  --motion-base: 220ms;
+  --motion-slow: 520ms;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--ink-000);
+  /* A fine measurement grid, barely there. It gives the page a sense of being
+     ruled rather than laid out, which is the whole visual thesis. */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 48px 48px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: var(--step-1);
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+}
+
+p {
+  margin: 0 0 var(--space-3);
+  max-width: 68ch;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: var(--accent-dim);
+  text-underline-offset: 0.2em;
+}
+
+code,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+  letter-spacing: -0.01em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+/* ------------------------------------------------------------------ shell */
+
+.skip-link {
+  position: absolute;
+  left: var(--space-3);
+  top: -4rem;
+  z-index: 100;
+  padding: var(--space-2) var(--space-4);
+  background: var(--ink-200);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  transition: top var(--motion-fast) var(--ease);
+}
+
+.skip-link:focus {
+  top: var(--space-3);
+}
+
+.shell {
+  display: grid;
+  grid-template-columns: var(--shell-width) minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.shell__nav {
+  border-right: 1px solid var(--rule);
+  background: rgb(7 8 10 / 82%);
+  backdrop-filter: blur(6px);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  padding: var(--space-5) 0 var(--space-6);
+}
+
+.shell__main {
+  min-width: 0;
+  padding: var(--space-6) var(--space-6) var(--space-7);
+}
+
+.brand {
+  padding: 0 var(--space-5) var(--space-5);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--space-4);
+}
+
+.brand__mark {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.brand__name {
+  font-size: var(--step-2);
+  margin-top: var(--space-1);
+}
+
+.nav-group {
+  padding: var(--space-3) var(--space-5) var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-quiet);
+}
+
+.nav-link {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  width: 100%;
+  padding: var(--space-2) var(--space-5);
+  border: 0;
+  border-left: 2px solid transparent;
+  background: none;
+  color: var(--text-secondary);
+  font-size: var(--step-0);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    color var(--motion-fast) var(--ease),
+    background-color var(--motion-fast) var(--ease),
+    border-color var(--motion-fast) var(--ease);
+}
+
+.nav-link:hover {
+  color: var(--text-primary);
+  background: rgb(255 255 255 / 3%);
+}
+
+.nav-link[aria-current='page'] {
+  color: var(--text-primary);
+  border-left-color: var(--accent);
+  background: var(--accent-wash);
+}
+
+.nav-link__index {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  color: var(--text-quiet);
+}
+
+/* --------------------------------------------------------------- headings */
+
+.view-header {
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.view-title {
+  font-size: var(--step-4);
+}
+
+.view-lede {
+  color: var(--text-secondary);
+  margin-top: var(--space-3);
+}
+
+.section {
+  margin-top: var(--space-6);
+}
+
+.section__title {
+  font-size: var(--step-2);
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--space-4);
+}
+
+/* ----------------------------------------------------------------- panels */
+
+.panel {
+  background: linear-gradient(180deg, var(--ink-100), var(--ink-050));
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-4);
+  /*
+   * A panel sizes its own contents. Two panels side by side in a `grid--2` are
+   * each about a third of the page, and a field list with a 9rem label column
+   * inside one of those had no room left for its value — the value column
+   * collapsed and a badge inside it pushed the whole page sideways. The fields
+   * respond to the panel's width, not the window's.
+   */
+  container-type: inline-size;
+}
+
+.panel--quiet {
+  background: var(--ink-050);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+}
+
+.grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.grid--4 {
+  grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
+}
+
+/* ------------------------------------------------------------------ stats */
+
+.stat {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  background: var(--ink-050);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat::before {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 2px;
+  background: var(--accent-dim);
+  opacity: 0.6;
+}
+
+.stat__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+/*
+ * Wraps rather than clips. `overflow: hidden` on the card plus a long mono
+ * value — "stdio · Streamable HTTP" — silently cut the transport list in half,
+ * which in a viewer about stating what was measured removed one of the two
+ * things that were. Multi-word values wrap onto their own lines and the card
+ * grows; the grid row stretches to match.
+ */
+.stat__value {
+  font-family: var(--font-mono);
+  font-size: var(--step-3);
+  margin-top: var(--space-1);
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+  hyphens: none;
+}
+
+/* A value made of several labels: each on its own line, none of them truncated. */
+.stat__values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.stat__values > span {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * A list of two or three short labels does not need display-size type. Dropping
+ * a step keeps "Streamable HTTP" on one line at 390px without shrinking the
+ * single-number stats that carry the screen.
+ */
+.stat__values--multi > span {
+  font-size: var(--step-1);
+  line-height: 1.35;
+}
+
+.stat__note {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  margin-top: var(--space-1);
+}
+
+.stat--absent .stat__value {
+  color: var(--state-absent);
+}
+
+/* --------------------------------------------------------------- disclaimer */
+
+/*
+ * The standing statement of what this document's numbers are. Sits above every
+ * view, and is styled to be read rather than dismissed — a synthetic build that
+ * whispered its own synthetic-ness would be the failure this project exists to
+ * make impossible elsewhere.
+ */
+.disclaimer {
+  border: 1px solid var(--accent-dim);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  background: var(--ink-100);
+  margin-bottom: var(--space-5);
+}
+
+.disclaimer__title {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0;
+}
+
+.disclaimer__body {
+  margin: var(--space-2) 0 0;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  max-width: 70ch;
+}
+
+/* ----------------------------------------------------------------- fields */
+
+.field-list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+}
+
+.field {
+  display: grid;
+  grid-template-columns: minmax(9rem, 15rem) minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: baseline;
+}
+
+.field:last-child {
+  border-bottom: 0;
+}
+
+.field__label {
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.field__value {
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  overflow-wrap: anywhere;
+}
+
+/*
+ * In a narrow panel the label and the value stack instead of competing for a
+ * width neither can have. Keyed to the panel rather than the viewport, so a
+ * cramped panel on a wide screen gets the same treatment as a wide panel on a
+ * phone — which is the case that was actually broken.
+ */
+@container (max-width: 26rem) {
+  .field {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+}
+
+.field__value--absent {
+  color: var(--text-quiet);
+  font-style: italic;
+}
+
+.field__value--prose {
+  font-family: var(--font-sans);
+  color: var(--text-secondary);
+}
+
+/* ------------------------------------------------------------------ badge */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.15em 0.55em;
+  border-radius: 2px;
+  border: 1px solid;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.03em;
+  /*
+   * `nowrap` keeps a state name like NOT_APPLICABLE in one piece, which is
+   * right — but it must not therefore be allowed to grow past whatever holds
+   * it. Bounded to its container, and permitted to break rather than overflow
+   * when the container is genuinely narrower than the word.
+   */
+  white-space: nowrap;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.badge--pass {
+  color: var(--state-pass);
+  border-color: color-mix(in srgb, var(--state-pass) 40%, transparent);
+  background: var(--state-pass-wash);
+}
+
+.badge--normative {
+  color: var(--state-normative);
+  border-color: color-mix(in srgb, var(--state-normative) 42%, transparent);
+  background: var(--state-normative-wash);
+}
+
+.badge--divergence {
+  color: var(--state-divergence);
+  border-color: color-mix(in srgb, var(--state-divergence) 40%, transparent);
+  background: var(--state-divergence-wash);
+}
+
+.badge--absent {
+  color: var(--text-tertiary);
+  border-color: var(--rule-strong);
+  background: var(--state-absent-wash);
+  border-style: dashed;
+}
+
+.badge--uncertain {
+  color: var(--state-uncertain);
+  border-color: color-mix(in srgb, var(--state-uncertain) 42%, transparent);
+  background: var(--state-uncertain-wash);
+}
+
+.badge--security {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  background: var(--accent-wash);
+}
+
+.badge--mode {
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  background: var(--accent-wash);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+/* ----------------------------------------------------------------- matrix */
+
+.matrix-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--ink-050);
+}
+
+/*
+ * Named in words, not implied by a fading edge. A gradient tells someone who
+ * has already noticed it that there is more; a sentence tells someone who has
+ * not. Shown only when the content actually overflows.
+ */
+.scroll-region__hint {
+  margin: var(--space-2) 0 0;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+  max-width: 70ch;
+}
+
+/*
+ * The scenario identity stays put while the implementation columns move. A
+ * horizontally scrolled row whose row header has left the screen is a row of
+ * results belonging to nothing.
+ */
+.matrix-wrap tbody th[scope='row'] {
+  position: sticky;
+  left: 0;
+  background: var(--ink-050);
+  z-index: 1;
+}
+
+/* ------------------------------------------------- two matrix presentations */
+
+.only-narrow {
+  display: none;
+}
+
+/* --------------------------------------------------------- stacked matrix */
+
+.stacked-matrix__picker {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.stacked-matrix__label {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.select {
+  font: inherit;
+  font-family: var(--font-mono);
+  font-size: var(--step-0);
+  color: var(--text-primary);
+  background: var(--ink-100);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-2) var(--space-3);
+  width: 100%;
+  /* 44px: a target a thumb can hit without magnifying the page. */
+  min-height: 2.75rem;
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.stacked-matrix__scenario {
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent-dim);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  background: var(--ink-050);
+  /* The scenario every card below refers to stays visible while they scroll. */
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.stacked-matrix__purpose {
+  margin: var(--space-2) 0 0;
+  color: var(--text-secondary);
+  font-size: 0.8125rem;
+}
+
+.stacked-matrix__count,
+.stacked-matrix__note {
+  margin: var(--space-3) 0;
+  font-size: 0.75rem;
+  color: var(--text-tertiary);
+}
+
+.stacked-cell {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--space-3) var(--space-4);
+  background: var(--ink-050);
+  margin-bottom: var(--space-3);
+}
+
+.stacked-cell__header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding-bottom: var(--space-2);
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: var(--space-3);
+  font-weight: 500;
+}
+
+.stacked-cell__meta {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  color: var(--text-quiet);
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.stacked-cell__state {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0 0 var(--space-2);
+}
+
+.stacked-cell__meaning {
+  margin: 0 0 var(--space-3);
+  font-size: 0.8125rem;
+  color: var(--text-secondary);
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: var(--step-0);
+}
+
+caption {
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+
+th,
+td {
+  text-align: left;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  background: var(--ink-150);
+  font-weight: 500;
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  z-index: 1;
+}
+
+tbody tr:hover td {
+  background: rgb(255 255 255 / 2.5%);
+}
+
+td.numeric,
+th.numeric {
+  text-align: right;
+  font-family: var(--font-mono);
+}
+
+.cell-button {
+  display: block;
+  width: 100%;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: 2px;
+  background: none;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-fast) var(--ease),
+    border-color var(--motion-fast) var(--ease),
+    transform var(--motion-fast) var(--ease);
+}
+
+.cell-button:hover {
+  border-color: var(--rule-strong);
+  transform: translateX(1px);
+}
+
+.cell-button[data-family='pass'] {
+  color: var(--state-pass);
+  background: var(--state-pass-wash);
+}
+
+.cell-button[data-family='normative'] {
+  color: var(--state-normative);
+  background: var(--state-normative-wash);
+}
+
+.cell-button[data-family='divergence'] {
+  color: var(--state-divergence);
+  background: var(--state-divergence-wash);
+}
+
+.cell-button[data-family='absent'] {
+  color: var(--text-tertiary);
+  background: var(--state-absent-wash);
+}
+
+.cell-button[data-family='uncertain'] {
+  color: var(--state-uncertain);
+  background: var(--state-uncertain-wash);
+}
+
+.cell-button[aria-pressed='true'] {
+  border-color: var(--accent);
+}
+
+/* --------------------------------------------------------------- evidence */
+
+.evidence-panel {
+  border: 1px solid var(--accent-dim);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--ink-150), var(--ink-050));
+  padding: var(--space-4);
+  animation: evidence-open var(--motion-base) var(--ease);
+}
+
+@keyframes evidence-open {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.callout {
+  border-left: 2px solid var(--accent-dim);
+  padding: var(--space-2) 0 var(--space-2) var(--space-4);
+  color: var(--text-secondary);
+  font-size: var(--step-0);
+}
+
+.callout--absent {
+  border-left-color: var(--state-absent);
+}
+
+.limitations {
+  margin: var(--space-3) 0 0;
+  padding-left: var(--space-4);
+  color: var(--text-tertiary);
+  font-size: 0.75rem;
+}
+
+.limitations li + li {
+  margin-top: var(--space-1);
+}
+
+.limitations__title {
+  font-family: var(--font-mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-quiet);
+  margin-top: var(--space-4);
+}
+
+/* ---------------------------------------------------------------- samples */
+
+.samples {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 2.5rem;
+  margin: var(--space-3) 0 var(--space-2);
+}
+
+.samples__bar {
+  flex: 1 1 0;
+  min-width: 3px;
+  background: linear-gradient(180deg, var(--accent), var(--accent-dim));
+  border-radius: 1px 1px 0 0;
+  transform-origin: bottom;
+  animation: sample-rise var(--motion-slow) var(--ease) backwards;
+}
+
+.samples__bar--warmup {
+  background: repeating-linear-gradient(135deg, var(--state-absent) 0 3px, transparent 3px 6px);
+}
+
+@keyframes sample-rise {
+  from {
+    transform: scaleY(0.04);
+    opacity: 0;
+  }
+  to {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+.ratio-bars {
+  display: grid;
+  gap: var(--space-2);
+  margin: var(--space-3) 0;
+}
+
+.ratio-bar {
+  display: grid;
+  grid-template-columns: 7rem minmax(0, 1fr) 5rem;
+  gap: var(--space-3);
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.ratio-bar__track {
+  height: 0.5rem;
+  background: var(--ink-200);
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.ratio-bar__fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  transform-origin: left;
+  animation: bar-draw var(--motion-slow) var(--ease) backwards;
+}
+
+@keyframes bar-draw {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ---------------------------------------------------------------- ledger */
+
+.ledger-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-3);
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--rule);
+  align-items: start;
+}
+
+.ledger-row:last-child {
+  border-bottom: 0;
+}
+
+.coverage-meter {
+  display: flex;
+  gap: 2px;
+  margin-top: var(--space-2);
+}
+
+.coverage-meter__tick {
+  height: 3px;
+  width: 10px;
+  background: var(--ink-300);
+  border-radius: 1px;
+}
+
+.coverage-meter__tick--filled {
+  background: var(--state-pass);
+}
+
+.coverage-meter__tick--partial {
+  background: var(--state-uncertain);
+}
+
+/* ----------------------------------------------------------------- guided */
+
+.guided {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgb(4 5 6 / 96%);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+}
+
+.guided__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--rule);
+}
+
+.guided__body {
+  overflow-y: auto;
+  padding: var(--space-6) var(--space-6) var(--space-7);
+}
+
+.guided__stage {
+  max-width: 62rem;
+  margin: 0 auto;
+  animation: stage-in var(--motion-base) var(--ease);
+}
+
+@keyframes stage-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.guided__progress {
+  display: flex;
+  gap: 3px;
+  padding: 0 var(--space-5) var(--space-4);
+}
+
+.guided__tick {
+  height: 2px;
+  flex: 1 1 0;
+  background: var(--ink-300);
+}
+
+.guided__tick--done {
+  background: var(--accent-dim);
+}
+
+.guided__tick--current {
+  background: var(--accent);
+}
+
+.button {
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--ink-150);
+  font-size: var(--step-0);
+  cursor: pointer;
+  /*
+   * A `select` styled as a button sizes itself to its longest option, and the
+   * longest option here is a target key joined to a scenario id. On a phone
+   * that made the whole page scrollable sideways from a control the reader was
+   * not even using.
+   */
+  max-width: 100%;
+  transition:
+    border-color var(--motion-fast) var(--ease),
+    background-color var(--motion-fast) var(--ease);
+}
+
+.button:hover:not(:disabled) {
+  border-color: var(--accent-dim);
+  background: var(--ink-200);
+}
+
+.button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.button--primary {
+  border-color: var(--accent-dim);
+  background: var(--accent-wash);
+  color: var(--accent);
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  align-items: center;
+  margin-bottom: var(--space-4);
+}
+
+.inline-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  padding: 0.1em 0.45em;
+  border: 1px solid var(--rule-strong);
+  border-radius: 2px;
+  color: var(--text-secondary);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.error-screen {
+  max-width: 44rem;
+  margin: 12vh auto;
+  padding: var(--space-6);
+  border: 1px solid var(--state-normative);
+  border-radius: var(--radius);
+  background: var(--ink-050);
+}
+
+/* --------------------------------------------------------------- responsive */
+
+@media (max-width: 60rem) {
+  .shell {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .shell__nav {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: var(--space-3);
+  }
+
+  .shell__main {
+    padding: var(--space-4) var(--space-4) var(--space-6);
+  }
+
+  .nav-list {
+    display: flex;
+    overflow-x: auto;
+    gap: var(--space-1);
+    padding: 0 var(--space-3);
+  }
+
+  .nav-link {
+    border-left: 0;
+    border-bottom: 2px solid transparent;
+    padding: var(--space-2) var(--space-3);
+    white-space: nowrap;
+  }
+
+  .nav-link[aria-current='page'] {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent);
+  }
+
+  .nav-group {
+    display: none;
+  }
+
+  .field {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .ratio-bar {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+}
+
+/*
+ * Below 48rem the matrix swaps arrangement rather than shrinking. The table
+ * keeps three implementation columns beside a scenario identifier, which at
+ * phone width put every result off-screen behind a scroll nobody was told
+ * about; the stacked view puts the same evidence in reading order.
+ */
+@media (max-width: 48rem) {
+  .only-wide {
+    display: none;
+  }
+
+  .only-narrow {
+    display: block;
+  }
+}
+
+/* -------------------------------------------------------------- reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

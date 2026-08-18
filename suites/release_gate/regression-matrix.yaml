@@ -1,0 +1,9 @@
+matrix_id: mvp-regressed
+description: >-
+  The MVP matrix with the conforming 2026 HTTP fixture swapped for a regressed
+  build carrying the same target id. Used only to prove the gate fails.
+targets:
+  - targets/fixtures/reference.yaml
+  - targets/fixtures/faulty-result-type.yaml
+  - targets/http/regressed-2026.yaml
+  - targets/http/faulty-header-mismatch.yaml

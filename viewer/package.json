@@ -1,0 +1,49 @@
+{
+  "name": "mcp-failure-lab-viewer",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Static, offline evidence viewer for MCP Failure Lab. Renders one JSON dataset, offline, with no backend.",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run schema:check && tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "e2e": "playwright test",
+    "e2e:desktop": "playwright test --project=desktop",
+    "e2e:mobile": "playwright test --project=mobile",
+    "schema:compile": "node scripts/compile-schema.mjs",
+    "schema:check": "node scripts/compile-schema.mjs --check"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.62.1",
+    "@testing-library/dom": "10.4.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@testing-library/user-event": "14.6.1",
+    "@types/node": "^24.13.3",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
+    "ajv": "8.20.0",
+    "eslint": "9.39.5",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "globals": "16.5.0",
+    "jsdom": "27.4.0",
+    "prettier": "3.9.6",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.67.0",
+    "vite": "8.2.1",
+    "vitest": "4.1.10"
+  }
+}

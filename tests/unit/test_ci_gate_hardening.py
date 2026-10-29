@@ -438,15 +438,47 @@ def test_matching_official_conformance_outcome_is_not_a_regression() -> None:
     assert result.outcome is GateOutcome.PASSED
 
 
-def test_absent_conformance_run_is_not_treated_as_a_change() -> None:
-    """No conformance run supplied is 'unmeasured', not 'failed'."""
+def test_absent_conformance_run_is_not_measured_and_never_a_pass() -> None:
+    """A baselined official outcome that this run did not re-execute is an error.
+
+    Missing execution is NOT_MEASURED. It is not a matching outcome and it is
+    not a pass, even when the harness's own classification is unchanged.
+    """
     result = evaluate(
         baseline=make_document(make_entry(conformance_outcome="passed")),
         runs=[(make_run(Classification.PASS), SCENARIO, make_target())],
     )
-    assert result.outcome is GateOutcome.PASSED
+    unmeasured = [
+        r for r in result.regressions if r.kind is RegressionKind.CONFORMANCE_UNMEASURED
+    ]
+    assert len(unmeasured) == 1
+    assert unmeasured[0].baseline_value == "passed"
+    assert unmeasured[0].observed_value == "NOT_MEASURED"
+    assert unmeasured[0].blocking is True
+    assert "NOT_MEASURED" in unmeasured[0].detail
+    assert result.outcome is GateOutcome.REGRESSION
+    assert result.exit_code != 0
     assert not [
         r for r in result.regressions if r.kind is RegressionKind.CONFORMANCE_OUTCOME_CHANGED
+    ]
+
+
+def test_conformance_outcome_is_not_required_when_the_baseline_records_none() -> None:
+    """Entries that never approved an official outcome do not demand one.
+
+    The committed fixture baselines store null. Omitting a conformance run
+    there must stay a pass; the error is for a required check that was skipped.
+    """
+    result = evaluate(
+        baseline=make_document(make_entry()),
+        runs=[(make_run(Classification.PASS), SCENARIO, make_target())],
+    )
+    assert result.outcome is GateOutcome.PASSED
+    assert not [
+        r
+        for r in result.regressions
+        if r.kind
+        in (RegressionKind.CONFORMANCE_UNMEASURED, RegressionKind.CONFORMANCE_OUTCOME_CHANGED)
     ]
 
 

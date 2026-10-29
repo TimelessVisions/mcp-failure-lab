@@ -37,12 +37,27 @@ class ConformanceOutcome(StrEnum):
     HARNESS_FAILURE = "HARNESS_FAILURE"
 
 
+class ConformanceSelector(StrEnum):
+    """Which official question this invocation answered.
+
+    ``requirements`` is ``--requirements <revision>``: the frozen set, at that
+    revision's wire. ``scenario`` is one ``--scenario`` at ``--spec-version``.
+    The official CLI rejects combining the two, and a scenario pass is not a
+    requirement-set pass.
+    """
+
+    REQUIREMENTS = "requirements"
+    SCENARIO = "scenario"
+
+
 class ConformanceCheck(BaseModel):
     model_config = ConfigDict(extra="allow")
 
     check_id: str
     scenario: str | None = None
     passed: bool | None = None
+    #: Official status token, preserved so SKIPPED is not counted as a pass.
+    status: str | None = None
     message: str | None = None
 
 
@@ -58,7 +73,15 @@ class ConformanceRun(BaseModel):
     source_sha: str = CONFORMANCE_SOURCE_SHA
     repository: str = CONFORMANCE_REPOSITORY
 
-    requirements: str = Field(description="Spec revision passed via --requirements.")
+    #: Dated revision. For ``selector=requirements`` this is the value passed to
+    #: ``--requirements``. For ``selector=scenario`` it is the ``--spec-version``
+    #: wire pin, not a claim that the frozen set was executed.
+    requirements: str = Field(description="Dated revision this invocation was pinned to.")
+    selector: ConformanceSelector = ConformanceSelector.REQUIREMENTS
+    #: ``official_exit_code`` for a requirements run (the pinned CLI's scored
+    #: verdict). ``check_counts`` for a single-scenario probe. ``harness`` when
+    #: the official CLI did not produce a verdict.
+    verdict_source: str = "harness"
     target_id: str
     url: str
     command: list[str]
@@ -70,6 +93,8 @@ class ConformanceRun(BaseModel):
     scenarios_total: int = 0
     scenarios_passed: int = 0
     scenarios_failed: int = 0
+    checks_skipped: int = 0
+    checks_informational: int = 0
     checks: list[ConformanceCheck] = Field(default_factory=list)
 
     #: Raw official output, preserved verbatim. Never edited, only truncated.
@@ -88,4 +113,6 @@ class ConformanceRun(BaseModel):
             "source_sha": self.source_sha,
             "repository": self.repository,
             "requirements": self.requirements,
+            "selector": self.selector.value,
+            "verdict_source": self.verdict_source,
         }

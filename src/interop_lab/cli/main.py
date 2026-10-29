@@ -873,7 +873,17 @@ def ci_gate(
         console.print(f"[bold red]error[/]: {exc}")
         raise typer.Exit(code=EXIT_CONFIGURATION_ERROR) from exc
 
-    gate = evaluate(baseline=document, runs=results, artifacts_root=Path("artifacts"))
+    from interop_lab.ci.official import official_outcomes_for_baseline
+
+    conformance_outcomes = asyncio.run(
+        official_outcomes_for_baseline(document, results, artifacts=artifacts)
+    )
+    gate = evaluate(
+        baseline=document,
+        runs=results,
+        artifacts_root=Path("artifacts"),
+        conformance_outcomes=conformance_outcomes,
+    )
     runs = [run for run, _, _ in results]
 
     written: list[str] = []

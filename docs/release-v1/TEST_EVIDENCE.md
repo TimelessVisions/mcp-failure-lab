@@ -106,12 +106,37 @@ Independent review of the pre-fix unscoped command at `d89ae1a` reproduced exit 
 - Scenario run with exit 0 and a FAILURE check is `OFFICIAL_CONFORMANCE_FAILURE`. A zero exit does not hide a failed check on a probe.
 - `build_server_command` never emits `--requirements` together with `--spec-version` or `--scenario`.
 
+## A2 — unmeasured conformance gate
+
+Characterization, before `gate.py` treated a missing outcome as an error, 2026-10-29T15:37:40Z:
+
+```text
+uv run pytest tests/unit/test_ci_gate_hardening.py::test_absent_conformance_run_is_not_measured_and_never_a_pass tests/unit/test_ci_gate_hardening.py::test_conformance_outcome_is_not_required_when_the_baseline_records_none --tb=short -q
+```
+
+Exit 1. The required-outcome test failed with `assert 0 == 1` (no `CONFORMANCE_UNMEASURED` regression; the gate still passed). The null-outcome control passed.
+
+After the gate change, those tests pass. A baselined outcome of `passed` with no `conformance_outcomes` argument yields `GateOutcome.REGRESSION`, exit code not 0, observed value `NOT_MEASURED`, and does not use `CONFORMANCE_OUTCOME_CHANGED`.
+
+## A2 — public secret scan
+
+Characterization, before `tools/public_secret_scan.sh` existed, 2026-10-29T15:38:36Z: both tests in `tests/unit/test_public_secret_scan.py` failed with exit 127 (`No such file or directory`).
+
+After the script:
+
+- A tree whose only secret-shaped strings are in `public-junit.xml` and `pytest.log` exits 0. The report names are not printed.
+- Negative control: the same AWS-key shape in `notes.txt`, with `public-junit.xml` also containing it, exits 1. stdout contains `FAILED  no AWS access key id` and `./notes.txt`, and does not contain `public-junit.xml`.
+- `bash tools/public_secret_scan.sh .` on this checkout exits 0.
+
+The concrete shapes are built in the test by concatenation so this document and the test source do not themselves match the scanner.
+
 ## Not verified
 
-- Public CI run 40902736173 on `f76875b` failed in "Artifacts carry no machine-specific paths". `test://nonexistent-resource-for-conformance-testing` was reported as Windows path `t:/`, and the summary JSON carried absolute paths in `command` and `raw_stdout` (51 POSIX paths in a local reproduction of that summary, plus the `t:/` false positive). The tree scan forbids the `actions/runs/<id>` spelling, so the run id is written here and the URL is in the PR body.
+- Public CI run 40902736173 on `f76875b` failed in "Artifacts carry no machine-specific paths". `test://nonexistent-resource-for-conformance-testing` was reported as Windows path `t:/`, and the summary JSON carried absolute paths in `command` and `raw_stdout` (51 POSIX paths in a local reproduction of that summary, plus the `t:/` false positive). The tree scan forbids the `actions/runs/<id>` spelling, so the run id is written here and the URL is in the PR body. That failure is addressed on `release/v1/A1-conformance-requirements` at `22becca`.
+- GitHub Actions on `release/v1/A2-gate-unmeasured` has not run yet.
 - Client conformance legs.
-- Docker containment tests (41 skips).
+- Docker containment tests, until a daemon and the pinned image are available on this VM. See the A2 docker section if one was added after this paragraph.
 - Conformance `0.2.0-alpha.12` beyond `--help` and the flag-mix rejection.
-- Python SDK 2.3.0 and TypeScript SDK 1.32.2.
+- Python SDK 2.3.0 and TypeScript SDK 1.32.2. Pins were not changed. That bump is an owner decision (`A-P1-5`).
 - A fixture that passes every scored scenario and fails only a not-scored scenario. The exit-code rule is unit-tested with a fake process, not with a live server built for that case.
-- Independent re-run by a different worker.
+- Independent re-run of this branch's head. The A1 head `f76875b` is under separate review and was not pushed to again.

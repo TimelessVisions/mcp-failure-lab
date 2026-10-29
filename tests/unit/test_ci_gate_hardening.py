@@ -448,9 +448,7 @@ def test_absent_conformance_run_is_not_measured_and_never_a_pass() -> None:
         baseline=make_document(make_entry(conformance_outcome="passed")),
         runs=[(make_run(Classification.PASS), SCENARIO, make_target())],
     )
-    unmeasured = [
-        r for r in result.regressions if r.kind is RegressionKind.CONFORMANCE_UNMEASURED
-    ]
+    unmeasured = [r for r in result.regressions if r.kind is RegressionKind.CONFORMANCE_UNMEASURED]
     assert len(unmeasured) == 1
     assert unmeasured[0].baseline_value == "passed"
     assert unmeasured[0].observed_value == "NOT_MEASURED"

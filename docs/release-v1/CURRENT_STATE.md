@@ -13,7 +13,7 @@ Audit date: 2026-10-29. Times below are UTC. Version in `pyproject.toml` is `0.1
 | Baseline subject | MCP Failure Lab — initial public-safe release candidate |
 | Work branch | `release/v1/A1-conformance-requirements` |
 | Characterization commit | `7419791d2e6dcfff4d1c60f019dbe2ce1abb86e2` |
-| Adapter fix and this document | the commit that follows `7419791` on this branch. Its hash is `git rev-parse HEAD` after that commit; a commit cannot record itself. |
+| Adapter fix | `8e368e410d02ea5740a2828b1c0385a011e2c254` |
 | Open PRs / issues at audit start | none |
 | Branch protection | Owner instruction: OFF, and it was not changed. `GET /repos/TimelessVisions/mcp-failure-lab/branches/main/protection` returned HTTP 403 (`Resource not accessible by integration`). This audit did not independently read the protection document. |
 

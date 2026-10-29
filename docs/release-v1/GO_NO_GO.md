@@ -1,6 +1,6 @@
 # Go / no-go — Track A
 
-SHA under test: the commit that adds this file, on `release/v1/A1-conformance-requirements`, parent `7419791d2e6dcfff4d1c60f019dbe2ce1abb86e2`. Date: 2026-10-29. Reviewer: the worker that wrote the change. That is not an independent review.
+SHA under test: `8e368e410d02ea5740a2828b1c0385a011e2c254` on `release/v1/A1-conformance-requirements` (parent `7419791d2e6dcfff4d1c60f019dbe2ce1abb86e2`). Date: 2026-10-29. Reviewer: the worker that wrote the change. That is not an independent review. A later commit on this branch only records that hash in these notes.
 
 | Gate | Result | Note |
 |---|---|---|

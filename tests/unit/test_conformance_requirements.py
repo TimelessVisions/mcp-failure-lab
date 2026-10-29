@@ -12,6 +12,7 @@ not be stored as a frozen requirement-set pass.
 
 from __future__ import annotations
 
+import asyncio
 import json
 from pathlib import Path
 from typing import Any
@@ -20,7 +21,7 @@ import pytest
 
 from interop_lab.config.loader import load_target
 from interop_lab.conformance.adapter import ConformanceAdapter
-from interop_lab.conformance.models import ConformanceOutcome
+from interop_lab.conformance.models import ConformanceOutcome, ConformanceRun, ConformanceSelector
 
 TARGET = load_target("targets/http/fixture-2026.yaml")
 
@@ -226,3 +227,82 @@ def test_skipped_and_informational_checks_are_counted_apart_from_passes() -> Non
     assert len(skipped) == 1
     assert len(informational) == 2
     assert not any(c.passed is True for c in skipped + informational)
+
+
+def test_scenario_probe_does_not_serialize_a_requirements_field() -> None:
+    run = ConformanceRun(
+        revision="2026-07-28",
+        selector=ConformanceSelector.SCENARIO,
+        requirements="2026-07-28",
+        target_id="t",
+        url="http://127.0.0.1:1/mcp",
+        command=["node"],
+        outcome=ConformanceOutcome.OFFICIAL_CONFORMANCE_PASS,
+    )
+    data = run.model_dump(mode="json")
+    assert "requirements" not in data
+    assert data["revision"] == "2026-07-28"
+    assert data["selector"] == "scenario"
+    assert "requirements" not in run.provenance()
+
+
+def test_requirements_run_keeps_the_requirements_field() -> None:
+    run = ConformanceRun(
+        revision="2025-11-25",
+        selector=ConformanceSelector.REQUIREMENTS,
+        target_id="t",
+        url="http://127.0.0.1:1/mcp",
+        command=["node"],
+        outcome=ConformanceOutcome.OFFICIAL_CONFORMANCE_FAILURE,
+    )
+    data = run.model_dump(mode="json")
+    assert data["requirements"] == "2025-11-25"
+    assert run.provenance()["requirements"] == "2025-11-25"
+
+
+@pytest.mark.asyncio
+async def test_timeout_kills_and_reaps_the_official_process(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    class _Hanging:
+        def __init__(self) -> None:
+            self.returncode: int | None = None
+            self.killed = False
+            self.waited = False
+
+        def kill(self) -> None:
+            self.killed = True
+            self.returncode = -9
+
+        async def wait(self) -> int:
+            self.waited = True
+            self.returncode = -9
+            return -9
+
+        async def communicate(self) -> tuple[bytes, bytes]:
+            await asyncio.sleep(30)
+            return b"", b""
+
+    hanging = _Hanging()
+
+    async def fake_exec(*command: str, **kwargs: object) -> _Hanging:
+        del command, kwargs
+        return hanging
+
+    monkeypatch.setattr(
+        "interop_lab.conformance.adapter.asyncio.create_subprocess_exec",
+        fake_exec,
+    )
+    monkeypatch.setattr("interop_lab.conformance.adapter.is_available", lambda: True)
+
+    run = await ConformanceAdapter(output_root=tmp_path).run_server(
+        target=TARGET,
+        url="http://127.0.0.1:9/mcp",
+        timeout_s=0.05,
+    )
+
+    assert hanging.killed is True
+    assert hanging.waited is True
+    assert run.outcome is ConformanceOutcome.HARNESS_FAILURE
+    assert run.parse_note is not None and "exceeded" in run.parse_note

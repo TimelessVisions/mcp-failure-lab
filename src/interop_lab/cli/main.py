@@ -357,13 +357,14 @@ def conformance_cmd(
     console.print(f"[bold]official conformance[/] {data['package']}@{data['version']}")
     console.print(f"source sha: {data['source_sha']}")
     console.print(
-        f"selector: {data['selector']}   revision: {data['requirements']}   "
-        f"target: {data['target_id']}"
+        f"selector: {data['selector']}   revision: {data['revision']}   target: {data['target_id']}"
     )
     if data["selector"] == "scenario":
         console.print(
-            "[yellow]scenario probe[/]: not a frozen requirement-set result. "
-            "The official CLI rejects combining --requirements with --scenario."
+            "[yellow]scenario probe[/]: Failure Lab is not reporting a frozen "
+            "requirement-set result. This sentence is printed by conformance_cmd, "
+            "not by the official CLI. The official CLI rejects combining "
+            "--requirements with --scenario, so this probe uses --spec-version."
         )
     colour = {
         "OFFICIAL_CONFORMANCE_PASS": "green",

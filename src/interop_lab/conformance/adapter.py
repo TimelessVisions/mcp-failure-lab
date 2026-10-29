@@ -18,6 +18,7 @@ import shutil
 import time
 from pathlib import Path
 
+from interop_lab.artifacts.portability import scrub_machine_paths
 from interop_lab.conformance.models import (
     CONFORMANCE_PACKAGE,
     CONFORMANCE_VERSION,
@@ -166,14 +167,19 @@ class ConformanceAdapter:
             output_dir=output_dir,
             scenario=scenario,
         )
+        # The subprocess needs the real path. The artifact must not keep it.
+        recorded_command = [scrub_machine_paths(part) for part in command]
 
         base = ConformanceRun(
-            requirements=profile.spec_version,
+            revision=profile.spec_version,
             selector=selector,
+            requirements=profile.spec_version
+            if selector is ConformanceSelector.REQUIREMENTS
+            else None,
             verdict_source="harness",
             target_id=target.target_id,
             url=url,
-            command=command,
+            command=recorded_command,
             outcome=ConformanceOutcome.HARNESS_FAILURE,
         )
 
@@ -182,6 +188,7 @@ class ConformanceAdapter:
             return base
 
         started = time.perf_counter()
+        process: asyncio.subprocess.Process | None = None
         try:
             process = await asyncio.create_subprocess_exec(
                 *command,
@@ -191,6 +198,9 @@ class ConformanceAdapter:
             stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout_s)
             exit_code = process.returncode
         except TimeoutError:
+            if process is not None and process.returncode is None:
+                process.kill()
+                await process.wait()
             base.parse_note = f"official conformance run exceeded {timeout_s}s"
             base.duration_ms = (time.perf_counter() - started) * 1000
             return base
@@ -200,8 +210,12 @@ class ConformanceAdapter:
 
         base.duration_ms = (time.perf_counter() - started) * 1000
         base.exit_code = exit_code
-        base.raw_stdout = stdout.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
-        base.raw_stderr = stderr.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
+        base.raw_stdout = scrub_machine_paths(
+            stdout.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
+        )
+        base.raw_stderr = scrub_machine_paths(
+            stderr.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
+        )
 
         checks_files = find_checks_files(output_dir)
         if not checks_files:

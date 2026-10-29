@@ -87,7 +87,7 @@ Exit 1. `selector=requirements`, `verdict_source=official_exit_code`, revision `
 uv run mcp-failure-lab conformance -t targets/http/fixture-2026.yaml --scenario tools-list --artifacts /tmp/after-scenario
 ```
 
-Exit 0. `selector=scenario`, `verdict_source=check_counts`, outcome `OFFICIAL_CONFORMANCE_PASS`. Checks 3 passed, 0 failed, 0 skipped, 0 informational. Command has `--scenario tools-list` and `--spec-version 2026-07-28`, and not `--requirements`. The CLI prints that this is not a frozen requirement-set result.
+Exit 0. `selector=scenario`, `verdict_source=check_counts`, outcome `OFFICIAL_CONFORMANCE_PASS`. Checks 3 passed, 0 failed, 0 skipped, 0 informational. Command has `--scenario tools-list` and `--spec-version 2026-07-28`, and not `--requirements`. The sentence "not a frozen requirement-set result" is printed by Failure Lab's `conformance_cmd` in `src/interop_lab/cli/main.py`, not by the official conformance CLI.
 
 ```text
 2026-10-29T15:31:00Z
@@ -96,6 +96,8 @@ uv run mcp-failure-lab conformance -t targets/http/fixture-2025.yaml --artifacts
 ```
 
 Exit 1. `selector=requirements`, revision `2025-11-25`, outcome `OFFICIAL_CONFORMANCE_FAILURE`. Checks: 34 passed, 28 failed, 0 skipped, 6 informational, total 68. No paired before-fix 2025 run was captured.
+
+Independent review of the pre-fix unscoped command at `d89ae1a` reproduced exit 1, `OFFICIAL_CONFORMANCE_FAILURE`, 23 passed / 17 failed, with artifact field `requirements=2026-07-28` and no selector. That run was not a requirement-set pass. The false pass remains the `--scenario tools-list` probe above.
 
 ## Negative controls encoded as tests
 
@@ -106,7 +108,7 @@ Exit 1. `selector=requirements`, revision `2025-11-25`, outcome `OFFICIAL_CONFOR
 
 ## Not verified
 
-- GitHub Actions on this branch (workflow file changed; no run exists yet).
+- Public CI run 40902736173 on `f76875b` failed in "Artifacts carry no machine-specific paths". `test://nonexistent-resource-for-conformance-testing` was reported as Windows path `t:/`, and the summary JSON carried absolute paths in `command` and `raw_stdout` (51 POSIX paths in a local reproduction of that summary, plus the `t:/` false positive). The tree scan forbids the `actions/runs/<id>` spelling, so the run id is written here and the URL is in the PR body.
 - Client conformance legs.
 - Docker containment tests (41 skips).
 - Conformance `0.2.0-alpha.12` beyond `--help` and the flag-mix rejection.

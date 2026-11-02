@@ -207,7 +207,11 @@ def test_public_workflows_name_no_workflow_run_identifier(path: str) -> None:
 
 @pytest.mark.parametrize("path", PUBLIC_WORKFLOWS)
 def test_public_workflows_trigger_on_main(path: str) -> None:
-    """A fresh public repository has one branch, and it is `main`."""
+    """A fresh public repository has one branch, and it is `main`.
+
+    Only `push` is branch-scoped now; `pull_request` is checked unfiltered by
+    test_public_workflows_verify_stacked_pull_requests.
+    """
     triggers = triggers_of(path)
 
     branches: list[str] = []

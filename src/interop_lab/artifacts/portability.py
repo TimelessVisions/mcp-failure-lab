@@ -99,7 +99,31 @@ def _looks_absolute(text: str) -> bool:
 
 
 #: Schemes whose "//" is part of a URI, not a filesystem path.
-_URI_SCHEMES = re.compile(r"\b(?:artifact|https?|file|ftp|git\+ssh|ssh)://\S*")
+#: ``test:`` is an official conformance fixture URI
+#: (``test://nonexistent-resource-for-conformance-testing``). Without it, the
+#: Windows matcher reads the ``t:/`` inside ``test://`` as a drive path.
+_URI_SCHEMES = re.compile(r"\b(?:artifact|https?|file|ftp|git\+ssh|ssh|test)://\S*")
+
+
+def scrub_machine_paths(text: str) -> str:
+    """Replace absolute filesystem paths with a portable placeholder.
+
+    URI schemes, including ``test://``, are left unchanged. A real Windows
+    path such as ``C:/Users/someone`` is still replaced.
+    """
+    held: list[str] = []
+
+    def _hold(match: re.Match[str]) -> str:
+        held.append(match.group(0))
+        return f"\u0000URI{len(held) - 1}\u0000"
+
+    shielded = _URI_SCHEMES.sub(_hold, text)
+    shielded = _ABSOLUTE_POSIX.sub("<abs-path>", shielded)
+    shielded = _ABSOLUTE_WINDOWS.sub("<abs-path>", shielded)
+    shielded = _UNC_WINDOWS.sub("<abs-path>", shielded)
+    for index, uri in enumerate(held):
+        shielded = shielded.replace(f"\u0000URI{index}\u0000", uri)
+    return shielded
 
 
 def violations_in_text(text: str, *, context: str = "") -> list[str]:

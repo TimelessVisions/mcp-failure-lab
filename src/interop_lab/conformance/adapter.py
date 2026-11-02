@@ -18,14 +18,18 @@ import shutil
 import time
 from pathlib import Path
 
+from interop_lab.artifacts.portability import scrub_machine_paths
 from interop_lab.conformance.models import (
     CONFORMANCE_PACKAGE,
     CONFORMANCE_VERSION,
+    ConformanceCheck,
     ConformanceOutcome,
     ConformanceRun,
+    ConformanceSelector,
 )
 from interop_lab.conformance.parser import (
     ConformanceParseError,
+    count_non_verdicts,
     find_checks_files,
     load_all_checks,
     summarise,
@@ -59,6 +63,74 @@ def unavailable_reason() -> str:
     return "available"
 
 
+def build_server_command(
+    *,
+    cli: Path,
+    url: str,
+    spec_version: str,
+    output_dir: Path,
+    scenario: str | None,
+) -> tuple[list[str], ConformanceSelector]:
+    """Build the official server argv for one dated question.
+
+    An unscoped run passes ``--requirements``. That flag replaces
+    ``--suite``, ``--spec-version`` and ``--scenario``: the pinned CLI exits
+    before writing checks if they are combined. A named scenario cannot be a
+    requirement-set run, so it is pinned with ``--spec-version`` instead and
+    reported under :class:`ConformanceSelector.SCENARIO`.
+    """
+    if not spec_version:
+        raise ValueError("spec_version is required")
+    command = [
+        "node",
+        str(cli),
+        "server",
+        "--url",
+        url,
+        "--verbose",
+        "--output-dir",
+        str(output_dir),
+    ]
+    if scenario:
+        command.extend(["--scenario", scenario, "--spec-version", spec_version])
+        return command, ConformanceSelector.SCENARIO
+    command.extend(["--requirements", spec_version])
+    return command, ConformanceSelector.REQUIREMENTS
+
+
+def official_outcome(
+    *,
+    selector: ConformanceSelector,
+    exit_code: int | None,
+    checks: list[ConformanceCheck],
+) -> tuple[ConformanceOutcome, str]:
+    """Map an official invocation to one outcome without re-scoring the set.
+
+    For ``--requirements``, the pinned CLI's exit code is the scored verdict
+    (``Bc`` in ``@modelcontextprotocol/conformance@0.2.0-alpha.11``): a
+    not-scored scenario's FAILURE checks do not flip it, and this harness does
+    not keep a second copy of that list. A non-zero exit is never a pass.
+
+    For a single scenario there is no not-scored split. Check counts decide,
+    so a zero exit cannot hide a failed check.
+    """
+    failed = any(check.passed is False for check in checks)
+    passed = any(check.passed is True for check in checks)
+    if selector is ConformanceSelector.REQUIREMENTS:
+        if exit_code is None:
+            return ConformanceOutcome.HARNESS_FAILURE, "harness"
+        if exit_code != 0:
+            return ConformanceOutcome.OFFICIAL_CONFORMANCE_FAILURE, "official_exit_code"
+        if not passed and not failed:
+            return ConformanceOutcome.OFFICIAL_CONFORMANCE_SKIPPED, "official_exit_code"
+        return ConformanceOutcome.OFFICIAL_CONFORMANCE_PASS, "official_exit_code"
+    if failed:
+        return ConformanceOutcome.OFFICIAL_CONFORMANCE_FAILURE, "check_counts"
+    if passed:
+        return ConformanceOutcome.OFFICIAL_CONFORMANCE_PASS, "check_counts"
+    return ConformanceOutcome.OFFICIAL_CONFORMANCE_SKIPPED, "check_counts"
+
+
 class ConformanceAdapter:
     """Runs the official CLI against a live local server and maps its results."""
 
@@ -88,26 +160,26 @@ class ConformanceAdapter:
         )
         output_dir.mkdir(parents=True, exist_ok=True)
 
-        command = [
-            "node",
-            str(CLI_ENTRY),
-            "server",
-            "--url",
-            url,
-            "--spec-version",
-            profile.spec_version,
-            "--verbose",
-            "--output-dir",
-            str(output_dir),
-        ]
-        if scenario:
-            command.extend(["--scenario", scenario])
+        command, selector = build_server_command(
+            cli=CLI_ENTRY,
+            url=url,
+            spec_version=profile.spec_version,
+            output_dir=output_dir,
+            scenario=scenario,
+        )
+        # The subprocess needs the real path. The artifact must not keep it.
+        recorded_command = [scrub_machine_paths(part) for part in command]
 
         base = ConformanceRun(
-            requirements=profile.spec_version,
+            revision=profile.spec_version,
+            selector=selector,
+            requirements=profile.spec_version
+            if selector is ConformanceSelector.REQUIREMENTS
+            else None,
+            verdict_source="harness",
             target_id=target.target_id,
             url=url,
-            command=command,
+            command=recorded_command,
             outcome=ConformanceOutcome.HARNESS_FAILURE,
         )
 
@@ -116,6 +188,7 @@ class ConformanceAdapter:
             return base
 
         started = time.perf_counter()
+        process: asyncio.subprocess.Process | None = None
         try:
             process = await asyncio.create_subprocess_exec(
                 *command,
@@ -125,6 +198,9 @@ class ConformanceAdapter:
             stdout, stderr = await asyncio.wait_for(process.communicate(), timeout=timeout_s)
             exit_code = process.returncode
         except TimeoutError:
+            if process is not None and process.returncode is None:
+                process.kill()
+                await process.wait()
             base.parse_note = f"official conformance run exceeded {timeout_s}s"
             base.duration_ms = (time.perf_counter() - started) * 1000
             return base
@@ -134,8 +210,12 @@ class ConformanceAdapter:
 
         base.duration_ms = (time.perf_counter() - started) * 1000
         base.exit_code = exit_code
-        base.raw_stdout = stdout.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
-        base.raw_stderr = stderr.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
+        base.raw_stdout = scrub_machine_paths(
+            stdout.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
+        )
+        base.raw_stderr = scrub_machine_paths(
+            stderr.decode("utf-8", errors="replace")[:MAX_RAW_CAPTURE]
+        )
 
         checks_files = find_checks_files(output_dir)
         if not checks_files:
@@ -152,15 +232,18 @@ class ConformanceAdapter:
             return base
 
         total, passed, failed = summarise(checks)
+        skipped, informational = count_non_verdicts(checks)
+        outcome, verdict_source = official_outcome(
+            selector=selector,
+            exit_code=exit_code,
+            checks=checks,
+        )
         base.checks = checks
         base.scenarios_total = total
         base.scenarios_passed = passed
         base.scenarios_failed = failed
-        base.outcome = (
-            ConformanceOutcome.OFFICIAL_CONFORMANCE_FAILURE
-            if failed
-            else ConformanceOutcome.OFFICIAL_CONFORMANCE_PASS
-            if passed
-            else ConformanceOutcome.OFFICIAL_CONFORMANCE_SKIPPED
-        )
+        base.checks_skipped = skipped
+        base.checks_informational = informational
+        base.outcome = outcome
+        base.verdict_source = verdict_source
         return base

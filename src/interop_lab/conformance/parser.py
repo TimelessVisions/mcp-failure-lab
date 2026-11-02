@@ -87,6 +87,7 @@ def parse_checks(payload: Any) -> list[ConformanceCheck]:
                 check_id=check_id,
                 scenario=entry.get("name") if isinstance(entry.get("name"), str) else None,
                 passed=passed,
+                status=status.upper(),
                 message=(
                     entry.get("errorMessage")
                     if isinstance(entry.get("errorMessage"), str)
@@ -120,3 +121,22 @@ def summarise(checks: list[ConformanceCheck]) -> tuple[int, int, int]:
     passed = sum(1 for c in checks if c.passed is True)
     failed = sum(1 for c in checks if c.passed is False)
     return len(checks), passed, failed
+
+
+def count_non_verdicts(checks: list[ConformanceCheck]) -> tuple[int, int]:
+    """Return ``(skipped, informational)``.
+
+    Both have ``passed is None``. They are not the same count: a skip is a
+    check that did not run, and a warning is a note. Neither is a pass.
+    """
+    skipped = 0
+    informational = 0
+    for check in checks:
+        if check.passed is not None or check.status is None:
+            continue
+        token = check.status.upper()
+        if token in SKIPPED_STATES:
+            skipped += 1
+        elif token in INFORMATIONAL_STATES:
+            informational += 1
+    return skipped, informational

@@ -30,9 +30,12 @@ which would silently change the baseline this project compares against.
 
 ## What the official suite covers
 
-At 2026-07-28 it declares **69 required scenarios**, including `tools-list`,
-`tools-call-*`, `resources-*`, `prompts-*`, `caching`, `dns-rebinding-protection`,
-`server-stateless`, and the `input-required-*` multi-round-trip family.
+`conformance list --requirements 2026-07-28` declares **69 required scenarios**
+(37 server, 32 client), including `tools-list`, `tools-call-*`, `resources-*`,
+`prompts-*`, `caching`, `dns-rebinding-protection`, `server-stateless`, and the
+`input-required-*` multi-round-trip family. An unscoped Failure Lab conformance
+run invokes the server leg only (`server --requirements <profile date>`). It
+does not run the client leg, and a `--scenario` probe is not that set.
 
 Failure Lab's own scenarios that overlap this surface exist as the harness's
 positive controls, not as competing checks. The differentiation is recorded per

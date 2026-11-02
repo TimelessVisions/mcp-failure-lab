@@ -123,11 +123,18 @@ than no evidence, because it is still being cited.
 
 ### Official conformance outcome
 
-Where an entry records an `official_conformance_outcome`, the gate compares it
-against the outcome supplied for that run and reports
-`official_conformance_outcome_changed`. This stays in the official framework's
-own vocabulary and is never merged into a Failure Lab classification. If no
-conformance run was supplied, the result is *unmeasured* — not a failure.
+Where an entry records an `official_conformance_outcome`, that outcome is a
+required check. The gate compares it against the outcome supplied for that run
+and reports `official_conformance_outcome_changed`. This stays in the official
+framework's own vocabulary and is never merged into a Failure Lab
+classification. If no conformance run was supplied, the gate reports
+`official_conformance_unmeasured` with observed value `NOT_MEASURED` and the
+run fails. A missing execution is not a pass and not a changed verdict.
+Entries that record no official outcome do not demand one.
+`mcp-failure-lab ci` runs the pinned official server CLI against each
+Streamable HTTP target that has a recorded outcome and passes
+`ConformanceOutcome` values into the gate. A stdio target, or a missing
+CLI, supplies nothing, and the gate reports `NOT_MEASURED`.
 
 ### SARIF output, and what this distribution cannot check about it
 

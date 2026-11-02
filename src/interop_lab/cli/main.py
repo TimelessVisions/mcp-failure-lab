@@ -326,8 +326,10 @@ def conformance_cmd(
 ) -> None:
     """Run the official MCP conformance suite against a target as a baseline.
 
-    Official results are reported separately from Failure Lab findings and are
-    never merged into the harness's own classification vocabulary.
+    With no ``--scenario``, this invokes the official frozen requirement set
+    for the target's dated profile (``--requirements``). A ``--scenario`` run
+    is one wire-scoped probe at ``--spec-version`` and is not a requirement-set
+    result. Official results stay in their own vocabulary.
     """
     from interop_lab.conformance.adapter import (
         ConformanceAdapter,
@@ -354,15 +356,28 @@ def conformance_cmd(
 
     console.print(f"[bold]official conformance[/] {data['package']}@{data['version']}")
     console.print(f"source sha: {data['source_sha']}")
-    console.print(f"requirements: {data['requirements']}   target: {data['target_id']}")
+    console.print(
+        f"selector: {data['selector']}   revision: {data['revision']}   target: {data['target_id']}"
+    )
+    if data["selector"] == "scenario":
+        console.print(
+            "[yellow]scenario probe[/]: Failure Lab is not reporting a frozen "
+            "requirement-set result. This sentence is printed by conformance_cmd, "
+            "not by the official CLI. The official CLI rejects combining "
+            "--requirements with --scenario, so this probe uses --spec-version."
+        )
     colour = {
         "OFFICIAL_CONFORMANCE_PASS": "green",
         "OFFICIAL_CONFORMANCE_FAILURE": "red",
     }.get(data["outcome"], "yellow")
-    console.print(f"outcome: [{colour}]{data['outcome']}[/]")
     console.print(
-        f"checks: {data['scenarios_passed']}/{data['scenarios_total']} passed, "
-        f"{data['scenarios_failed']} failed"
+        f"outcome: [{colour}]{data['outcome']}[/]   "
+        f"verdict source: {data['verdict_source']}   exit: {data['exit_code']}"
+    )
+    console.print(
+        f"checks: {data['scenarios_passed']} passed, {data['scenarios_failed']} failed, "
+        f"{data['checks_skipped']} skipped, {data['checks_informational']} informational "
+        f"of {data['scenarios_total']}"
     )
     for check in data["checks"]:
         mark = "PASS" if check["passed"] else ("SKIP" if check["passed"] is None else "FAIL")
@@ -858,7 +873,17 @@ def ci_gate(
         console.print(f"[bold red]error[/]: {exc}")
         raise typer.Exit(code=EXIT_CONFIGURATION_ERROR) from exc
 
-    gate = evaluate(baseline=document, runs=results, artifacts_root=Path("artifacts"))
+    from interop_lab.ci.official import official_outcomes_for_baseline
+
+    conformance_outcomes = asyncio.run(
+        official_outcomes_for_baseline(document, results, artifacts=artifacts)
+    )
+    gate = evaluate(
+        baseline=document,
+        runs=results,
+        artifacts_root=Path("artifacts"),
+        conformance_outcomes=conformance_outcomes,
+    )
     runs = [run for run, _, _ in results]
 
     written: list[str] = []

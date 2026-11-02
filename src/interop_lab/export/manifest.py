@@ -58,6 +58,10 @@ ALLOWED: tuple[Rule, ...] = (
     Rule("baselines/**", "Approved baselines over local fixtures only."),
     Rule("tools/conformance/**", "Pinned official conformance boundary."),
     Rule("tools/export_gate.sh", "Public release gate executed by public CI."),
+    Rule(
+        "tools/public_secret_scan.sh",
+        "Public CI secret scan. Excludes generated junit reports, not other paths.",
+    ),
     Rule("docs/*.md", "Public documentation."),
     Rule("profiles/**", "Dated protocol profile facts."),
     Rule("artifacts/examples/**", "Curated synthetic example artifacts."),

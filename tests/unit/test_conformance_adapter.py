@@ -13,6 +13,7 @@ from interop_lab.conformance.models import (
     CONFORMANCE_VERSION,
     ConformanceOutcome,
     ConformanceRun,
+    ConformanceSelector,
 )
 from interop_lab.conformance.parser import (
     ConformanceParseError,
@@ -37,7 +38,8 @@ def test_official_and_interop_vocabularies_do_not_overlap() -> None:
 
 def test_pinned_version_is_recorded() -> None:
     run = ConformanceRun(
-        requirements="2026-07-28",
+        revision="2026-07-28",
+        selector=ConformanceSelector.REQUIREMENTS,
         target_id="t",
         url="http://127.0.0.1:1/mcp",
         command=["node"],
@@ -103,7 +105,8 @@ def test_missing_directory_yields_no_files(tmp_path: Path) -> None:
 
 def test_unavailable_framework_is_a_harness_failure_not_a_pass() -> None:
     run = ConformanceRun(
-        requirements="2026-07-28",
+        revision="2026-07-28",
+        selector=ConformanceSelector.REQUIREMENTS,
         target_id="t",
         url="http://127.0.0.1:1/mcp",
         command=["node"],

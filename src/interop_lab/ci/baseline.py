@@ -474,6 +474,10 @@ class RegressionKind(StrEnum):
     REPRODUCTION_UNSTABLE = "reproduction_unstable"
     REPRODUCTION_MISMATCH = "reproduction_mismatch"
     CONFORMANCE_OUTCOME_CHANGED = "official_conformance_outcome_changed"
+    #: The baseline recorded an official outcome and this run did not supply one.
+    #: Distinct from a changed outcome: nothing was measured, so the gate must
+    #: not report a pass and must not invent a new official verdict.
+    CONFORMANCE_UNMEASURED = "official_conformance_unmeasured"
 
 
 class Regression(BaseModel):

@@ -29,7 +29,13 @@ That is a large, well-built surface. Failure Lab does not reimplement any of it.
 ### `baseline.http_tools_list`
 
 - **Official baseline:** fully covered by `tools-list`, `tools-name-format` and
-  `wire-schema-valid`. Verified: 3/3 pass against `http.fixture.2026`.
+  `wire-schema-valid`. A single `--scenario tools-list` probe against
+  `http.fixture.2026` passes 3/3. That probe is not the frozen
+  `--requirements 2026-07-28` set. Measured on 2026-10-29 against
+  `@modelcontextprotocol/conformance@0.2.0-alpha.11`, the unscoped server
+  requirement set on this fixture exited 1: 73 checks passed, 88 failed,
+  7 skipped, 9 informational (177 checks, 50 scenarios). The earlier "22/41"
+  figure in this document was not reproduced as that requirement set.
 - **Failure Lab addition:** none of substance. This scenario is retained only as
   the harness's own positive control, so a hostile scenario's failure can be
   distinguished from a broken harness.
@@ -64,11 +70,14 @@ That is a large, well-built surface. Failure Lab does not reimplement any of it.
 
 ## What the official suite caught that Failure Lab did not
 
-Running the full 2026-07-28 suite against `http.fixture.2026` produced
+An earlier run of a 2026-07-28 suite against `http.fixture.2026` reported
 **22/41 checks passing**, and among the failures was
 `localhost-host-rebinding-rejected`: the fixture did not validate the `Host`
 header, leaving it open to DNS rebinding. None of this project's own scenarios
-tested for that.
+tested for that. That 22/41 count was not reproduced on 2026-10-29 when the
+pinned CLI was invoked with `--requirements 2026-07-28` (see above). On that
+dated run the rebinding checks passed and the fixture still failed the scored
+requirement set.
 
 The fixture was fixed and both rebinding checks now pass. This is the clearest
 argument for integration over duplication: the official suite found a real gap

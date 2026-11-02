@@ -29,7 +29,6 @@ on:
       - "uv.lock"
       - ".github/workflows/public-release-gate.yml"
   pull_request:
-    branches: ["main"]
     paths:
       - "tools/export_gate.sh"
       - "src/interop_lab/export/**"

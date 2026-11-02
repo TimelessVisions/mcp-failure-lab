@@ -5,9 +5,9 @@ name: Public CI
 #
 # This file lives in the private source repository but is authored to be
 # exported. It names no private branch, no private artifact, no finding, no
-# external target and no private benchmark. Its triggers are `main` and pull
-# requests against `main`, because that is the only branch a fresh public
-# repository has.
+# external target and no private benchmark. Pushes are scoped to `main`, the
+# only branch a fresh public repository has. Pull requests run whatever branch
+# they target, so a pull request stacked on another one is still verified.
 #
 # It also runs nothing that needs private input: no external target image is
 # pulled, no comparative benchmark executes, and no third-party implementation
@@ -16,7 +16,6 @@ on:
   push:
     branches: ["main"]
   pull_request:
-    branches: ["main"]
   workflow_dispatch:
 
 permissions:

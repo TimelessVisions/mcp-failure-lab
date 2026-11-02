@@ -207,7 +207,11 @@ def test_public_workflows_name_no_workflow_run_identifier(path: str) -> None:
 
 @pytest.mark.parametrize("path", PUBLIC_WORKFLOWS)
 def test_public_workflows_trigger_on_main(path: str) -> None:
-    """A fresh public repository has one branch, and it is `main`."""
+    """A fresh public repository has one branch, and it is `main`.
+
+    Only `push` is branch-scoped now; `pull_request` is checked unfiltered by
+    test_public_workflows_verify_stacked_pull_requests.
+    """
     triggers = triggers_of(path)
 
     branches: list[str] = []
@@ -221,6 +225,19 @@ def test_public_workflows_trigger_on_main(path: str) -> None:
 
     assert branches, f"{path} has no branch-scoped trigger"
     assert set(branches) == {"main"}, f"{path} triggers on {sorted(set(branches))}, not just main"
+
+
+@pytest.mark.parametrize("path", PUBLIC_WORKFLOWS)
+def test_public_workflows_verify_stacked_pull_requests(path: str) -> None:
+    """A pull request based on another pull request's branch is still verified.
+
+    Filtering `pull_request` to `main` left stacked pull requests with no
+    checks at all, which reads as nothing failing rather than nothing measured.
+    """
+    config = triggers_of(path).get("pull_request")
+    if not isinstance(config, dict):
+        return
+    assert "branches" not in config, f"{path} skips pull requests not based on main"
 
 
 @pytest.mark.parametrize("path", PUBLIC_WORKFLOWS)

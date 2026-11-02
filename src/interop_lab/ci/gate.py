@@ -694,8 +694,26 @@ def evaluate(
             if not expected_outcome:
                 continue
             actual = observed_conformance.get(entry.target_id)
-            if actual is None:
-                continue  # No conformance run supplied; nothing to compare.
+            if not actual:
+                # A recorded official outcome is a required check. Skipping the
+                # comparison left the gate passed while the check did not run.
+                regressions.append(
+                    Regression(
+                        kind=RegressionKind.CONFORMANCE_UNMEASURED,
+                        target_id=entry.target_id,
+                        scenario_id=entry.scenario_id,
+                        baseline_value=expected_outcome,
+                        observed_value="NOT_MEASURED",
+                        detail=(
+                            "the baseline records an official conformance outcome and "
+                            "this run did not re-measure it. Missing execution is "
+                            "NOT_MEASURED, never a pass. This stays in the official "
+                            "framework's vocabulary and is not a Failure Lab finding."
+                        ),
+                        blocking=True,
+                    )
+                )
+                continue
             if actual != expected_outcome:
                 regressions.append(
                     Regression(

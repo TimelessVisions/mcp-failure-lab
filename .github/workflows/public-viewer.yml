@@ -20,7 +20,6 @@ on:
       - "uv.lock"
       - ".github/workflows/public-viewer.yml"
   pull_request:
-    branches: ["main"]
     paths:
       - "viewer/**"
       - "src/interop_lab/viewer/**"

@@ -224,6 +224,19 @@ def test_public_workflows_trigger_on_main(path: str) -> None:
 
 
 @pytest.mark.parametrize("path", PUBLIC_WORKFLOWS)
+def test_public_workflows_verify_stacked_pull_requests(path: str) -> None:
+    """A pull request based on another pull request's branch is still verified.
+
+    Filtering `pull_request` to `main` left stacked pull requests with no
+    checks at all, which reads as nothing failing rather than nothing measured.
+    """
+    config = triggers_of(path).get("pull_request")
+    if not isinstance(config, dict):
+        return
+    assert "branches" not in config, f"{path} skips pull requests not based on main"
+
+
+@pytest.mark.parametrize("path", PUBLIC_WORKFLOWS)
 def test_public_workflows_use_the_public_console_script(path: str) -> None:
     """The distribution and the command carry the public name."""
     body = text_of(path)

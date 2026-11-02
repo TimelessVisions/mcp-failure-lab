@@ -57,6 +57,44 @@ def test_portable_references_are_accepted(sample: str) -> None:
     assert not violations_in_text(sample, context="t"), f"wrongly rejected {sample}"
 
 
+def test_conformance_test_uri_is_not_a_windows_path_and_absolute_paths_still_fail() -> None:
+    """``test://`` is a conformance fixture URI. ``t:/`` inside it is not a drive.
+
+    An absolute path beside that URI is still a portability failure until it
+    is scrubbed. Scrubbing must keep the URI and remove the path.
+    """
+    from interop_lab.artifacts.portability import scrub_machine_paths
+
+    uri = "test://nonexistent-resource-for-conformance-testing"
+    absolute = "/tmp/port-repro/conformance/http.fixture.2026/run-1"
+    windows = "C:/Users/someone/repo/file.json"
+
+    assert not violations_in_text(uri, context="checks.requestedUri")
+    assert violations_in_text(absolute, context="command")
+    assert violations_in_text(windows, context="raw_stdout")
+
+    command = ["node", "cli.js", "--output-dir", absolute]
+    raw_stdout = f"Results saved to {absolute}/server-tools-list\n"
+    payload = {
+        "command": command,
+        "raw_stdout": raw_stdout,
+        "message": uri,
+        "also": windows,
+    }
+    assert validate_payload(payload)
+    sanitized = {
+        "command": [scrub_machine_paths(part) for part in command],
+        "raw_stdout": scrub_machine_paths(raw_stdout),
+        "message": scrub_machine_paths(uri),
+        "also": scrub_machine_paths(windows),
+    }
+    assert not validate_payload(sanitized), validate_payload(sanitized)
+    assert uri in sanitized["message"]
+    assert absolute not in sanitized["raw_stdout"]
+    assert "<abs-path>" in sanitized["command"][3]
+    assert "C:/Users" not in sanitized["also"]
+
+
 def test_validate_payload_walks_nested_structures() -> None:
     payload = {"a": {"b": [{"c": "/tmp/claude-0/x/y"}]}}
     problems = validate_payload(payload)

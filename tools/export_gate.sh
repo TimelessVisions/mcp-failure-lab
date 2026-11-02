@@ -149,6 +149,16 @@ if (cd "$OUT" && uv run ruff format --check . >/tmp/fmt.log 2>&1); then ok "ruff
 step "Run type checking"
 if (cd "$OUT" && uv run pyright >/tmp/types.log 2>&1); then ok "pyright strict"; else bad "pyright strict"; tail -15 /tmp/types.log; fi
 
+step "Install the pinned conformance CLI"
+# The suite includes a test that spawns this package. It fails, rather than
+# skips, when the CLI is absent, so the export has to install it before pytest.
+if (cd "$OUT/tools/conformance" && npm ci >/tmp/conformance-npm.log 2>&1); then
+  ok "pinned official conformance CLI"
+else
+  bad "pinned official conformance CLI"
+  tail -20 /tmp/conformance-npm.log
+fi
+
 step "Run unit tests"
 # `-rs`, and no second `-q`. pyproject already passes `-q`; adding another made
 # it `-qq`, which suppresses the summary line — so this step used to report a
